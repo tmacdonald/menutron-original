@@ -1,4 +1,6 @@
 Menutron::Application.routes.draw do
+  resources :recipe_directions
+
   resources :recipes
 
   resources :ingredients
