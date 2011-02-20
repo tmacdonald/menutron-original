@@ -27,6 +27,7 @@ class RecipesController < ApplicationController
   def new
     @recipe = Recipe.new
     @recipe.directions.build
+    @recipe.ingredients.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,6 +39,7 @@ class RecipesController < ApplicationController
   def edit
     @recipe = Recipe.find(params[:id])
     @recipe.directions.build
+    @recipe.ingredients.build
   end
 
   # POST /recipes

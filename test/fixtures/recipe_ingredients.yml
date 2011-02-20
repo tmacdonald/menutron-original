@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  ingredient: 
+  measurement: 
+  amount: 9.99
+  measurement_adjectives: MyString
+  preparation: MyString
+
+two:
+  ingredient: 
+  measurement: 
+  amount: 9.99
+  measurement_adjectives: MyString
+  preparation: MyString
