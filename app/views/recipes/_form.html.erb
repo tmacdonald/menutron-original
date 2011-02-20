@@ -37,6 +37,20 @@
   </div>
   <% end %>
 
+  <h2>Ingredients</h2>
+  <%= f.fields_for :ingredients do |ingredient_form| %>
+  <div class="field">
+    <% unless ingredient_form.object.new_record? %>
+      <%= ingredient_form.check_box :_destroy %>
+    <% end %>
+    <%= ingredient_form.label :how_much %>
+    <%= ingredient_form.text_field :how_much %>
+    <%= ingredient_form.label :what %>
+    <%= ingredient_form.text_field :what %>
+    <%= ingredient_form.label :preparation %>
+    <%= ingredient_form.text_field :preparation %>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>
