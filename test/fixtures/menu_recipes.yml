@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  menu: 
+  recipe: 
+  servings: 1
+
+two:
+  menu: 
+  recipe: 
+  servings: 1
