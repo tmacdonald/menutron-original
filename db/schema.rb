@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110306205121) do
+ActiveRecord::Schema.define(:version => 20110306210314) do
 
   create_table "ingredients", :force => true do |t|
     t.string   "name"
@@ -19,12 +19,20 @@ ActiveRecord::Schema.define(:version => 20110306205121) do
     t.boolean  "plural",     :default => false
   end
 
+  create_table "meals", :force => true do |t|
+    t.string   "name"
+    t.integer  "menu_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "menu_recipes", :force => true do |t|
     t.integer  "menu_id"
     t.integer  "recipe_id"
     t.integer  "servings"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "meal_id"
   end
 
   create_table "menus", :force => true do |t|
