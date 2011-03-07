@@ -19,6 +19,31 @@
     <%= f.label :description %><br />
     <%= f.text_field :description %>
   </div>
+
+  <h2>Recipes</h2>
+  <%= f.fields_for :recipes do |rf| %>
+  <div class="field">
+    <% unless rf.object.new_record? %>
+      <%= rf.check_box :_destroy %>
+    <% end %>
+    <%= rf.label :recipe %>
+    <%= rf.collection_select :recipe_id, Recipe.all, :id, :name %>
+    <%= rf.label :servings %>
+    <%= rf.text_field :servings %>
+  </div>
+  <% end %>
+
+  <h2>Ingredients</h2>
+  <%= f.fields_for :ingredients do |fi| %>
+  <div class="field">
+    <% unless fi.object.new_record? %>
+      <%= fi.check_box :_destroy %>
+    <% end %>
+    <%= fi.label :ingredient %>
+    <%= fi.collection_select :ingredient_id, Ingredient.all, :id, :name %>
+  </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

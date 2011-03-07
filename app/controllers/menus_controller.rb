@@ -25,6 +25,10 @@ class MenusController < ApplicationController
   # GET /menus/new.xml
   def new
     @menu = Menu.new
+    1.times.each do
+      @menu.recipes.build
+      @menu.ingredients.build
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,7 +38,11 @@ class MenusController < ApplicationController
 
   # GET /menus/1/edit
   def edit
-    @menu = Menu.find(params[:id])
+    @menu = Menu.includes(:recipes => [:recipe], :ingredients => [:ingredient]).find(params[:id])
+    1.times.each do
+      @menu.recipes.build
+      @menu.ingredients.build
+    end
   end
 
   # POST /menus
