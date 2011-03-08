@@ -1,4 +1,6 @@
 Menutron::Application.routes.draw do
+  resources :measurements
+
   resources :menus
 
   resources :recipe_ingredients
