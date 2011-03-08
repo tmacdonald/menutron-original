@@ -26,6 +26,7 @@ class MenusController < ApplicationController
   def new
     @menu = Menu.new
     1.times.each do
+      @menu.meals.build
       @menu.recipes.build
       @menu.ingredients.build
     end
@@ -40,6 +41,7 @@ class MenusController < ApplicationController
   def edit
     @menu = Menu.includes(:recipes => [:recipe], :ingredients => [:ingredient]).find(params[:id])
     1.times.each do
+      @menu.meals.build
       @menu.recipes.build
       @menu.ingredients.build
     end
