@@ -10,10 +10,32 @@ module Amounted
     base.validates_presence_of :ingredient_name
   end
 
-  private
+  #private
 
-  def convert_amount(amount_string)
-    amount_string.to_i
+  def self.convert_amount(amount_string)
+    amount = 0.0
+
+    mixed_fraction_regex = /(\d+)\s+(\d+)\s*\/\s*(\d+)/
+    fraction_regex = /(\d+)\s*\/\s*(\d+)/
+    whole_number_regex = /\d+/
+
+    match = mixed_fraction_regex.match amount_string
+    unless match.nil?
+      amount = match[1].to_f + (match[2].to_f / match[3].to_f)
+      amount_string = ""
+    end
+  
+    match = fraction_regex.match amount_string
+    unless match.nil?
+      amount = (match[1].to_f / match[2].to_f)
+      amount_string = ""
+    end
+
+    unless amount_string.empty?
+      amount = amount_string.to_f
+    end
+
+    amount
   end
 
   def parse_virtual_attributes
