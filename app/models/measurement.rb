@@ -10,4 +10,9 @@ class Measurement < ActiveRecord::Base
     end
     result 
   end
+
+  def replace(input)
+    regex = Regexp.new(self.regex)
+    input.sub(regex, "{m}")
+  end
 end
