@@ -12,15 +12,16 @@ class RecipeIngredient < ActiveRecord::Base
   private
 
   def parse_virtual_attributes
+
+    amount_regex = /(\d+)|(\d+\s*\/\s*\d+)|(\d+\s+\d+\s*\/\s*\d+)/
+
     if @how_much
-	tokens = @how_much.split(/\s+/)
-
-	logger.info tokens[0]
-	logger.info tokens[1]
-
-	self.amount = tokens[0]
-	self.measurement_id = tokens[1]
-	#self.measurement = Measurement.find_by_name(tokens[1])
+      self.amount_format = @how_much
+      measurement = Measurement.search(self.amount_format)
+      unless measurement.nil? 
+        self.amount_format = measurement.replace(self.amount_format)
+      end
+      self.amount_format = self.amount_format.sub(amount_regex, "{a}")
     end
 
     self.ingredient = Ingredient.find_or_create_by_name(@what)
