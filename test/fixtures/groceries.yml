@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  menu: 
+  menu_ingredient: 
+  menu_recipe: 
+  amount: 1.5
+  measurement: 
+  ingredient: 
+  measurement_adjectives: MyString
+
+two:
+  menu: 
+  menu_ingredient: 
+  menu_recipe: 
+  amount: 1.5
+  measurement: 
+  ingredient: 
+  measurement_adjectives: MyString
