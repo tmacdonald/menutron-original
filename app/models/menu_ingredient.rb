@@ -1,7 +1,9 @@
 class MenuIngredient < ActiveRecord::Base
-  belongs_to :ingredient
-  belongs_to :measurement
+  include Amounted
+
   belongs_to :menu
   belongs_to :meal
-  has_one :grocery
+  has_one :grocery, :dependent => :destroy
+
+  before_save :parse_virtual_attributes
 end
