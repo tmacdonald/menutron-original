@@ -1,7 +1,10 @@
 class Grocery < ActiveRecord::Base
+  include Amounted
+
   belongs_to :menu
   belongs_to :menu_ingredient
   belongs_to :menu_recipe
-  belongs_to :measurement
-  belongs_to :ingredient
+
+  before_save :parse_virtual_attributes
+  after_find :populate_virtual_attributes
 end
