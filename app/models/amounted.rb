@@ -38,6 +38,49 @@ module Amounted
     amount
   end
 
+  def self.format_amount(amount)
+    if amount.nil?
+      ""
+    else
+      fraction = amount.fraction
+  
+      if fraction[1] == 1
+        fraction[0].to_s
+      else
+   
+        whole = ""
+        if amount.to_i > 0
+          whole = amount.to_i.to_s
+          fraction[0] = fraction[0] - (amount.to_i * fraction[1])
+        end
+    
+
+        (whole << " " << fraction[0].to_s << "/" << fraction[1].to_s).strip
+      end
+    end
+  end
+
+  def populate_virtual_attributes
+    formatted_amount = Amounted.format_amount(self.amount)
+    measurement_name = self.measurement.name unless self.measurement.nil?
+    @ingredient_name = self.ingredient.name unless self.ingredient.nil?
+
+    logger.debug measurement_name
+
+    unless self.amount.nil?
+      if measurement_name.nil?
+        @ingredient_name = @ingredient_name.pluralize if self.amount == 0 or self.amount > 1
+      else
+        measurement_name = measurement_name.pluralize if self.amount == 0 or self.amount > 1
+      end
+    end
+
+    @how_much = formatted_amount
+    unless measurement_name.nil?
+      @how_much << " " << measurement_name
+    end
+  end
+
   def parse_virtual_attributes
 
     amount_regex = /(?:\d+\s+\d+\s*\/\s*\d+)|(?:\d+\s*\/\s*\d+)|(?:\d+)/
@@ -51,7 +94,7 @@ module Amounted
       end
       amount = amount_regex.match(self.amount_format)
       unless amount.nil?
-        self.amount = convert_amount(amount[0])
+        self.amount = Amounted.convert_amount(amount[0])
       end
       self.amount_format = self.amount_format.sub(amount_regex, "{a}")
     end
