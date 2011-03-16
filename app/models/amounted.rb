@@ -1,5 +1,35 @@
 module Amounted
-  attr_accessor :how_much, :ingredient_name
+  attr_accessor :how_much
+
+  def ingredient_name
+    self.ingredient.name
+  end
+
+  def ingredient_name=(name)
+    self.ingredient = Ingredient.find_or_create_by_name(name)
+  end
+
+  def how_much
+    measurement_name = self.measurement.name unless self.measurement.nil?
+    [Amounted.format_amount(self.amount), measurement_name].join(" ")
+  end
+
+  def how_much=(value)
+    
+    amount_regex = /(?:\d+\s+\d+\s*\/\s*\d+)|(?:\d+\s*\/\s*\d+)|(?:\d+)/
+
+      self.amount_format = value
+      measurement = Measurement.search(self.amount_format)
+      unless measurement.nil? 
+        self.amount_format = measurement.replace(self.amount_format)
+        self.measurement = measurement
+      end
+      amount = amount_regex.match(self.amount_format)
+      unless amount.nil?
+        self.amount = Amounted.convert_amount(amount[0])
+      end
+      self.amount_format = self.amount_format.sub(amount_regex, "{a}")
+  end
 
   # weblog.jamisbuck.org/2007/1/17/concerns-in-activerecord
   # "Because of the included hook, defined in the module, each class that receives this module will automatically gain the associations and validations defined
@@ -63,7 +93,7 @@ module Amounted
   def populate_virtual_attributes
     formatted_amount = Amounted.format_amount(self.amount)
     measurement_name = self.measurement.name unless self.measurement.nil?
-    @ingredient_name = self.ingredient.name unless self.ingredient.nil?
+    #@ingredient_name = self.ingredient.name unless self.ingredient.nil?
 
     logger.debug measurement_name
 
@@ -99,6 +129,6 @@ module Amounted
       self.amount_format = self.amount_format.sub(amount_regex, "{a}")
     end
 
-    self.ingredient = Ingredient.find_or_create_by_name(@ingredient_name)
+    #self.ingredient = Ingredient.find_or_create_by_name(@ingredient_name)
   end
 end
