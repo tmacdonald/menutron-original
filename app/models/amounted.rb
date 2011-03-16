@@ -2,7 +2,7 @@ module Amounted
   attr_accessor :how_much
 
   def ingredient_name
-    self.ingredient.name
+    self.ingredient.name unless self.ingredient.nil?
   end
 
   def ingredient_name=(name)
