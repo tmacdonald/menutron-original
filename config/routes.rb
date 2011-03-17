@@ -2,14 +2,15 @@ Menutron::Application.routes.draw do
   resources :measurements
 
   resources :menus do 
+    resources :menu_recipes, :path => "recipes"
+    resources :menu_ingredients, :path => "ingredients"
     resources :groceries
   end
 
-  resources :recipe_ingredients
-
-  resources :recipe_directions
-
-  resources :recipes
+  resources :recipes do 
+    resources :recipe_ingredients, :path => "ingredients"
+    resources :recipe_directions, :path => "directions"
+  end
 
   resources :ingredients
 

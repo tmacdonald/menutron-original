@@ -8,7 +8,7 @@ class GroceriesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => { :status => :ok, :groceries => @groceries.to_json(:methods => [:how_much,:ingredient_name]) } }
+      format.json { render :json => @groceries.to_json(:only => :id, :methods => [:how_much,:ingredient_name]) }
       format.xml { render :xml => @groceries }
     end
   end
@@ -21,7 +21,7 @@ class GroceriesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => { :status => :ok, :grocery => @grocery.to_json(:methods => [:how_much, :ingredient_name]) } }
+      format.json { render :json => @grocery.to_json(:only => :id, :methods => [:how_much, :ingredient_name]) }
       format.xml  { render :xml => @grocery }
     end
   end
@@ -43,6 +43,7 @@ class GroceriesController < ApplicationController
   end
 
   # POST /groceries
+  # POST /groceries.json
   # POST /groceries.xml
   def create
     @grocery = Grocery.new(params[:grocery])
@@ -50,7 +51,7 @@ class GroceriesController < ApplicationController
     respond_to do |format|
       if @grocery.save
         format.html { redirect_to(@grocery, :notice => 'Grocery was successfully created.') }
-        format.json { render :json => :grocery => @grocery, :status => :ok }
+        format.json { render :json => :grocery => @grocery.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :ok }
         format.xml  { render :xml => @grocery, :status => :created, :location => @grocery }
       else
         format.html { render :action => "new" }
@@ -61,6 +62,7 @@ class GroceriesController < ApplicationController
   end
 
   # PUT /groceries/1
+  # PUT /groceries/1.json
   # PUT /groceries/1.xml
   def update
     @grocery = Grocery.find(params[:id])
@@ -68,7 +70,7 @@ class GroceriesController < ApplicationController
     respond_to do |format|
       if @grocery.update_attributes(params[:grocery])
         format.html { redirect_to(@grocery, :notice => 'Grocery was successfully updated.') }
-        format.json { render :json => @grocery, :status => :ok }
+        format.json { head :ok }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -79,6 +81,7 @@ class GroceriesController < ApplicationController
   end
 
   # DELETE /groceries/1
+  # DELETE /groceries/1.json
   # DELETE /groceries/1.xml
   def destroy
     @grocery = Grocery.find(params[:id])
@@ -86,7 +89,7 @@ class GroceriesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(groceries_url) }
-      format.json { render :status => :ok }
+      format.json { head :ok }
       format.xml  { head :ok }
     end
   end

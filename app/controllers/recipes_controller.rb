@@ -1,5 +1,6 @@
 class RecipesController < ApplicationController
   # GET /recipes
+  # GET /recipes.json
   # GET /recipes.xml
   def index
     @recipes = Recipe.all
@@ -13,12 +14,14 @@ class RecipesController < ApplicationController
 
   # GET /recipes/1
   # GET /recipes/1.xml
+  # GET /recipes/1.json
   def show
     @recipe = Recipe.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @recipe }
+      format.json { render :json => @recipe }
     end
   end
 
@@ -44,6 +47,7 @@ class RecipesController < ApplicationController
 
   # POST /recipes
   # POST /recipes.xml
+  # POST /recipes.json
   def create
     @recipe = Recipe.new(params[:recipe])
 
@@ -51,6 +55,7 @@ class RecipesController < ApplicationController
       if @recipe.save
         format.html { redirect_to(@recipe, :notice => 'Recipe was successfully created.') }
         format.xml  { render :xml => @recipe, :status => :created, :location => @recipe }
+        format.json { render :json => @recipe }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @recipe.errors, :status => :unprocessable_entity }
@@ -61,6 +66,7 @@ class RecipesController < ApplicationController
 
   # PUT /recipes/1
   # PUT /recipes/1.xml
+  # PUT /recipes/1.json
   def update
     @recipe = Recipe.find(params[:id])
 
@@ -68,15 +74,18 @@ class RecipesController < ApplicationController
       if @recipe.update_attributes(params[:recipe])
         format.html { redirect_to(@recipe, :notice => 'Recipe was successfully updated.') }
         format.xml  { head :ok }
+        format.json { head :ok } 
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @recipe.errors, :status => :unprocessable_entity }
+        format.json { render :json => @recipe.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /recipes/1
   # DELETE /recipes/1.xml
+  # DELETE /recipes/1.json
   def destroy
     @recipe = Recipe.find(params[:id])
     @recipe.destroy
@@ -84,6 +93,7 @@ class RecipesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(recipes_url) }
       format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
 end
