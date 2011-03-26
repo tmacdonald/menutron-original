@@ -1,4 +1,9 @@
 Menutron::Application.routes.draw do
+
+  resource :user_session
+  resource :account, :controller => "users"
+  resources :users
+
   resources :measurements
 
   resources :menus do 
