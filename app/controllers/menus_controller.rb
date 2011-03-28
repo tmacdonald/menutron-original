@@ -1,9 +1,11 @@
 class MenusController < ApplicationController
+  before_filter :require_user
+
   # GET /menus
   # GET /menus.xml
   # GET /menus.json
   def index
-    @menus = Menu.all
+    @menus = current_user.menus
 
     respond_to do |format|
       format.html # index.html.erb
@@ -56,6 +58,7 @@ class MenusController < ApplicationController
   # POST /menus.json
   def create
     @menu = Menu.new(params[:menu])
+    @menu.user = current_user
 
     respond_to do |format|
       if @menu.save
