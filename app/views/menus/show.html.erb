@@ -10,6 +10,12 @@
   <%= @menu.description %>
 </p>
 
+<h2>Groceries</h2>
+<ul>
+<% @menu.groceries.each do |g| %>
+  <li><%= g.how_much %> <%= g.ingredient_name %></li>
+<% end %>
+</ul>
 
 <%= link_to 'Edit', edit_menu_path(@menu) %> |
 <%= link_to 'Back', menus_path %>

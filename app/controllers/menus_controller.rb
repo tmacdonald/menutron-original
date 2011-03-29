@@ -18,7 +18,7 @@ class MenusController < ApplicationController
   # GET /menus/1.xml
   # GET /menus/1.json
   def show
-    @menu = Menu.find(params[:id])
+    @menu = Menu.includes(:ingredients => [:ingredient, :measurement], :recipes => [:recipe], :groceries => [:ingredient, :measurement]).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
