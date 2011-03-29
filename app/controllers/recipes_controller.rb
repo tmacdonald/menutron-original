@@ -18,7 +18,7 @@ class RecipesController < ApplicationController
   # GET /recipes/1.xml
   # GET /recipes/1.json
   def show
-    @recipe = Recipe.find(params[:id])
+    @recipe = Recipe.find_by_slug(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -42,7 +42,7 @@ class RecipesController < ApplicationController
 
   # GET /recipes/1/edit
   def edit
-    @recipe = Recipe.find(params[:id])
+    @recipe = Recipe.find_by_slug(params[:id])
     @recipe.directions.build
     @recipe.ingredients.build
   end
@@ -70,7 +70,7 @@ class RecipesController < ApplicationController
   # PUT /recipes/1.xml
   # PUT /recipes/1.json
   def update
-    @recipe = Recipe.find(params[:id])
+    @recipe = Recipe.find_by_slug(params[:id])
 
     respond_to do |format|
       if @recipe.update_attributes(params[:recipe])
@@ -89,7 +89,7 @@ class RecipesController < ApplicationController
   # DELETE /recipes/1.xml
   # DELETE /recipes/1.json
   def destroy
-    @recipe = Recipe.find(params[:id])
+    @recipe = Recipe.find_by_slug(params[:id])
     @recipe.destroy
 
     respond_to do |format|
