@@ -51,7 +51,7 @@ class GroceriesController < ApplicationController
     respond_to do |format|
       if @grocery.save
         format.html { redirect_to(@grocery, :notice => 'Grocery was successfully created.') }
-        format.json { render :json => :grocery => @grocery.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :ok }
+        format.json { render :json => @grocery.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :ok }
         format.xml  { render :xml => @grocery, :status => :created, :location => @grocery }
       else
         format.html { render :action => "new" }
