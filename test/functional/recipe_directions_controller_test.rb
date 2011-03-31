@@ -2,11 +2,12 @@ require 'test_helper'
 
 class RecipeDirectionsControllerTest < ActionController::TestCase
   setup do
+    @recipe = recipes(:one)
     @recipe_direction = recipe_directions(:one)
   end
 
   test "should get index" do
-    get :index
+    get :index, :recipe_id => @recipe.slug
     assert_response :success
     assert_not_nil assigns(:recipe_directions)
   end

@@ -7,7 +7,6 @@ one:
   amount: 1.5
   measurement: 
   ingredient: 
-  measurement_adjectives: MyString
 
 two:
   menu: 
@@ -16,4 +15,3 @@ two:
   amount: 1.5
   measurement: 
   ingredient: 
-  measurement_adjectives: MyString

@@ -3,6 +3,7 @@ require 'test_helper'
 class RecipesControllerTest < ActionController::TestCase
   setup do
     @recipe = recipes(:one)
+    UserSession.create(users(:one))
   end
 
   test "should get index" do
@@ -17,6 +18,7 @@ class RecipesControllerTest < ActionController::TestCase
   end
 
   test "should create recipe" do
+    puts @recipe.attributes
     assert_difference('Recipe.count') do
       post :create, :recipe => @recipe.attributes
     end
