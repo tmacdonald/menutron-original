@@ -1,11 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  menu: 
-  recipe: 
+  menu_id: menus(:one).id
+  recipe_id: recipes(:one).id
   servings: 1
 
 two:
-  menu: 
-  recipe: 
+  menu_id: menus(:two).id
+  recipe_id: recipes(:two).id
   servings: 1

@@ -39,7 +39,9 @@ class MenuIngredientsControllerTest < ActionController::TestCase
   end
 
   test "should update menu_ingredient" do
-    put :update, :id => @menu_ingredient.to_param, :menu_ingredient => @menu_ingredient.attributes, :format => "json"
+    @menu_ingredient.ingredient_name = "bananas"
+
+    put :update, :menu_id => @menu.to_param, :id => @menu_ingredient.to_param, :menu_ingredient => @menu_ingredient.attributes, :format => "json"
     assert_response :success
   end
 

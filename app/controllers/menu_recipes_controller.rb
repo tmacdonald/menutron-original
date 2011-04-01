@@ -1,4 +1,6 @@
 class MenuRecipesController < ApplicationController
+  before_filter :find_menu
+
   # GET /menu_recipes
   # GET /menu_recipes.xml
   # GET /menu_recipes.json
@@ -52,8 +54,8 @@ class MenuRecipesController < ApplicationController
     respond_to do |format|
       if @menu_recipe.save
         format.html { redirect_to(@menu_recipe, :notice => 'Menu recipe was successfully created.') }
-        format.xml  { render :xml => @menu_recipe, :status => :created, :location => @menu_recipe }
-        format.json { render :json => @menu_recipe, :status => :created, :location => @menu_recipe }
+        format.xml  { render :xml => @menu_recipe, :status => :created, :location => [@menu,@menu_recipe] }
+        format.json { render :json => @menu_recipe, :status => :created, :location => [@menu,@menu_recipe] }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @menu_recipe.errors, :status => :unprocessable_entity }
@@ -93,4 +95,9 @@ class MenuRecipesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  protected
+    def find_menu
+      @menu = Menu.find(params[:menu_id])
+    end
 end

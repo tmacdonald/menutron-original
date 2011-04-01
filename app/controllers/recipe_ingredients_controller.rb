@@ -1,4 +1,6 @@
 class RecipeIngredientsController < ApplicationController
+  before_filter :find_recipe
+
   # GET /recipe_ingredients
   # GET /recipe_ingredients.xml
   # GET /recipe_ingredients.json
@@ -92,4 +94,9 @@ class RecipeIngredientsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  protected
+    def find_recipe
+      @recipe = Recipe.find_by_slug(params[:recipe_id])
+    end
 end

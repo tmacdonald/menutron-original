@@ -1,4 +1,4 @@
-<%= form_for(@recipe_direction) do |f| %>
+<%= form_for([@recipe, @recipe_direction]) do |f| %>
   <% if @recipe_direction.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@recipe_direction.errors.count, "error") %> prohibited this recipe_direction from being saved:</h2>

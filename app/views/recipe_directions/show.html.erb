@@ -10,11 +10,5 @@
   <%= @recipe_direction.order %>
 </p>
 
-<p>
-  <b>Recipe:</b>
-  <%= @recipe_direction.recipe %>
-</p>
-
-
-<%= link_to 'Edit', edit_recipe_direction_path(@recipe_direction) %> |
-<%= link_to 'Back', recipe_directions_path %>
+<%= link_to 'Edit', edit_recipe_recipe_direction_path(@recipe, @recipe_direction) %> |
+<%= link_to 'Back', recipe_recipe_directions_path(@recipe) %>

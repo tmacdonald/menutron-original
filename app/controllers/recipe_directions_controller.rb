@@ -1,9 +1,11 @@
 class RecipeDirectionsController < ApplicationController
+  before_filter :find_recipe
+
   # GET /recipe_directions
   # GET /recipe_directions.xml
   # GET /recipe_directions.json
   def index
-    @recipe_directions = RecipeDirection.all
+    @recipe_directions = @recipe.directions
 
     respond_to do |format|
       format.html # index.html.erb
@@ -49,9 +51,9 @@ class RecipeDirectionsController < ApplicationController
 
     respond_to do |format|
       if @recipe_direction.save
-        format.html { redirect_to(@recipe_direction, :notice => 'Recipe direction was successfully created.') }
-        format.xml  { render :xml => @recipe_direction, :status => :created, :location => @recipe_direction }
-        format.json { render :json => @recipe_direction, :status => :created, :location => @recipe_direction }
+        format.html { redirect_to([@recipe,@recipe_direction], :notice => 'Recipe direction was successfully created.') }
+        format.xml  { render :xml => @recipe_direction, :status => :created, :location => [@recipe, @recipe_direction] }
+        format.json { render :json => @recipe_direction, :status => :created, :location => [@recipe, @recipe_direction] }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @recipe_direction.errors, :status => :unprocessable_entity }
@@ -68,7 +70,7 @@ class RecipeDirectionsController < ApplicationController
 
     respond_to do |format|
       if @recipe_direction.update_attributes(params[:recipe_direction])
-        format.html { redirect_to(@recipe_direction, :notice => 'Recipe direction was successfully updated.') }
+        format.html { redirect_to([@recipe,@recipe_direction], :notice => 'Recipe direction was successfully updated.') }
         format.xml  { head :ok }
         format.json { head :ok }
       else
@@ -87,9 +89,14 @@ class RecipeDirectionsController < ApplicationController
     @recipe_direction.destroy
 
     respond_to do |format|
-      format.html { redirect_to(recipe_directions_url) }
+      format.html { redirect_to(recipe_recipe_directions_url(@recipe)) }
       format.xml  { head :ok }
       format.json { head :ok }
     end
   end
+
+  protected
+    def find_recipe
+      @recipe = Recipe.find_by_slug(params[:recipe_id])
+    end
 end

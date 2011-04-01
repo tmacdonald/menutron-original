@@ -52,8 +52,8 @@ class MenuIngredientsController < ApplicationController
     respond_to do |format|
       if @menu_ingredient.save
         format.html { redirect_to(@menu_ingredient, :notice => 'Menu ingredient was successfully created.') }
-        format.xml  { render :xml => @menu_ingredient, :status => :created, :location => @menu_ingredient }
-        format.json { render :json => @menu_ingredient.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :created, :location => @menu_ingredient }
+        format.xml  { render :xml => @menu_ingredient, :status => :created, :location => [@menu, @menu_ingredient] }
+        format.json { render :json => @menu_ingredient.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :created, :location => [@menu,@menu_ingredient] }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @menu_ingredient.errors, :status => :unprocessable_entity }
