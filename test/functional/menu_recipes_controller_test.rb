@@ -7,7 +7,7 @@ class MenuRecipesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, :menu_id => @menu.to_param, :format => "json"
+    get :index, :menu_id => @menu.to_param
     assert_response :success
     assert_not_nil assigns(:menu_recipes)
   end
@@ -23,14 +23,14 @@ class MenuRecipesControllerTest < ActionController::TestCase
     menu_recipe.recipe = recipes(:one)
   
     assert_difference('MenuRecipe.count') do
-      post :create, :menu_id => @menu.to_param, :menu_recipe => menu_recipe.attributes, :format => "json"
+      post :create, :menu_id => @menu.to_param, :menu_recipe => menu_recipe.attributes
     end
 
-    assert_response :success
+    assert_redirected_to menu_menu_recipe_path(@menu, assigns(:menu_recipe))
   end
 
   test "should show menu_recipe" do
-    get :show, :menu_id => @menu.to_param, :id => @menu_recipe.to_param, :format => "json"
+    get :show, :menu_id => @menu.to_param, :id => @menu_recipe.to_param
     assert_response :success
   end
 
@@ -45,15 +45,15 @@ class MenuRecipesControllerTest < ActionController::TestCase
     menu_recipe.recipe = recipes(:one)
     menu_recipe.save
 
-    put :update, :menu_id => @menu.to_param, :id => @menu_recipe.to_param, :menu_recipe => menu_recipe.attributes, :format => "json"
-    assert_response :success
+    put :update, :menu_id => @menu.to_param, :id => @menu_recipe.to_param, :menu_recipe => menu_recipe.attributes
+    assert_redirected_to menu_menu_recipe_path(@menu, assigns(:menu_recipe))
   end
 
   test "should destroy menu_recipe" do
     assert_difference('MenuRecipe.count', -1) do
-      delete :destroy, :menu_id => @menu.to_param, :id => @menu_recipe.to_param, :format => "json"
+      delete :destroy, :menu_id => @menu.to_param, :id => @menu_recipe.to_param
     end
 
-    assert_response :success
+    assert_redirected_to menu_menu_recipes_path(@menu)
   end
 end

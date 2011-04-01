@@ -53,7 +53,7 @@ class MenuRecipesController < ApplicationController
 
     respond_to do |format|
       if @menu_recipe.save
-        format.html { redirect_to(@menu_recipe, :notice => 'Menu recipe was successfully created.') }
+        format.html { redirect_to([@menu,@menu_recipe], :notice => 'Menu recipe was successfully created.') }
         format.xml  { render :xml => @menu_recipe, :status => :created, :location => [@menu,@menu_recipe] }
         format.json { render :json => @menu_recipe, :status => :created, :location => [@menu,@menu_recipe] }
       else
@@ -72,7 +72,7 @@ class MenuRecipesController < ApplicationController
 
     respond_to do |format|
       if @menu_recipe.update_attributes(params[:menu_recipe])
-        format.html { redirect_to(@menu_recipe, :notice => 'Menu recipe was successfully updated.') }
+        format.html { redirect_to([@menu,@menu_recipe], :notice => 'Menu recipe was successfully updated.') }
         format.xml  { head :ok }
         format.json { head :ok }
       else
@@ -90,7 +90,7 @@ class MenuRecipesController < ApplicationController
     @menu_recipe.destroy
 
     respond_to do |format|
-      format.html { redirect_to(menu_recipes_url) }
+      format.html { redirect_to(menu_menu_recipes_url(@menu)) }
       format.xml  { head :ok }
       format.json { head :ok }
     end

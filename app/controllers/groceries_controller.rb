@@ -51,7 +51,7 @@ class GroceriesController < ApplicationController
 
     respond_to do |format|
       if @grocery.save
-        format.html { redirect_to(@grocery, :notice => 'Grocery was successfully created.') }
+        format.html { redirect_to([@menu,@grocery], :notice => 'Grocery was successfully created.') }
         format.json { render :json => @grocery.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :ok }
         format.xml  { render :xml => @grocery, :status => :created, :location => @grocery }
       else
@@ -70,7 +70,7 @@ class GroceriesController < ApplicationController
 
     respond_to do |format|
       if @grocery.update_attributes(params[:grocery])
-        format.html { redirect_to(@grocery, :notice => 'Grocery was successfully updated.') }
+        format.html { redirect_to([@menu,@grocery], :notice => 'Grocery was successfully updated.') }
         format.json { head :ok }
         format.xml  { head :ok }
       else
@@ -89,7 +89,7 @@ class GroceriesController < ApplicationController
     @grocery.destroy
 
     respond_to do |format|
-      format.html { redirect_to(groceries_url) }
+      format.html { redirect_to(menu_groceries_url(@menu)) }
       format.json { head :ok }
       format.xml  { head :ok }
     end

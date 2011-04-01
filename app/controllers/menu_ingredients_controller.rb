@@ -5,7 +5,7 @@ class MenuIngredientsController < ApplicationController
   # GET /menu_ingredients.xml
   # GET /menu_ingredients.json
   def index
-    @menu_ingredients = MenuIngredient.all
+    @menu_ingredients = @menu.ingredients
 
     respond_to do |format|
       format.html # index.html.erb
@@ -51,7 +51,7 @@ class MenuIngredientsController < ApplicationController
 
     respond_to do |format|
       if @menu_ingredient.save
-        format.html { redirect_to(@menu_ingredient, :notice => 'Menu ingredient was successfully created.') }
+        format.html { redirect_to([@menu,@menu_ingredient], :notice => 'Menu ingredient was successfully created.') }
         format.xml  { render :xml => @menu_ingredient, :status => :created, :location => [@menu, @menu_ingredient] }
         format.json { render :json => @menu_ingredient.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :created, :location => [@menu,@menu_ingredient] }
       else
@@ -70,7 +70,7 @@ class MenuIngredientsController < ApplicationController
 
     respond_to do |format|
       if @menu_ingredient.update_attributes(params[:menu_ingredient])
-        format.html { redirect_to(@menu_ingredient, :notice => 'Menu ingredient was successfully updated.') }
+        format.html { redirect_to([@menu,@menu_ingredient], :notice => 'Menu ingredient was successfully updated.') }
         format.xml  { head :ok }
         format.json { head :ok }
       else
@@ -89,7 +89,7 @@ class MenuIngredientsController < ApplicationController
     @menu_ingredient.destroy
 
     respond_to do |format|
-      format.html { redirect_to(menu_ingredients_url) }
+      format.html { redirect_to(menu_menu_ingredients_url(@menu)) }
       format.xml  { head :ok }
       format.json { head :ok }
     end

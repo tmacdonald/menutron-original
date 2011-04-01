@@ -18,7 +18,6 @@ class RecipesControllerTest < ActionController::TestCase
   end
 
   test "should create recipe" do
-    puts @recipe.attributes
     assert_difference('Recipe.count') do
       post :create, :recipe => @recipe.attributes
     end

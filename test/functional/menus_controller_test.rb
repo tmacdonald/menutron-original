@@ -36,6 +36,8 @@ class MenusControllerTest < ActionController::TestCase
   end
 
   test "should update menu" do
+    @menu.user_id = users(:one).id
+
     put :update, :id => @menu.to_param, :menu => @menu.attributes
     assert_redirected_to menu_path(assigns(:menu))
   end

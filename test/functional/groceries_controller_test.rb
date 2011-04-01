@@ -7,7 +7,7 @@ class GroceriesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    get :index, :menu_id => @menu.id, :format => "json"
+    get :index, :menu_id => @menu.id
     assert_response :success
     assert_not_nil assigns(:groceries)
   end
@@ -22,14 +22,14 @@ class GroceriesControllerTest < ActionController::TestCase
     grocery.ingredient_name = "bananas"
 
     assert_difference('Grocery.count') do
-      post :create, :menu_id => @menu.id, :grocery => grocery.attributes, :format => "json"
+      post :create, :menu_id => @menu.id, :grocery => grocery.attributes
     end
 
-    assert_response :success
+    assert_redirected_to menu_grocery_path(@menu, assigns(:grocery))
   end
 
   test "should show grocery" do
-    get :show, :menu_id => @menu.id, :id => @grocery.to_param, :format => "json"
+    get :show, :menu_id => @menu.id, :id => @grocery.to_param
     assert_response :success
   end
 
@@ -42,15 +42,15 @@ class GroceriesControllerTest < ActionController::TestCase
     grocery = Grocery.new
     grocery.ingredient_name = "bananas"
 
-    put :update, :menu_id => @menu.id, :id => @grocery.to_param, :grocery => grocery.attributes, :format => "json"
-    assert_response :success
+    put :update, :menu_id => @menu.id, :id => @grocery.to_param, :grocery => grocery.attributes
+    assert_redirected_to menu_grocery_path(@menu, assigns(:grocery))
   end
 
   test "should destroy grocery" do
     assert_difference('Grocery.count', -1) do
-      delete :destroy, :menu_id => @menu.id, :id => @grocery.to_param, :format => "json"
+      delete :destroy, :menu_id => @menu.id, :id => @grocery.to_param
     end
 
-    assert_response :success
+    assert_redirected_to menu_groceries_path(@menu)
   end
 end
