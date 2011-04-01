@@ -9,13 +9,13 @@
 
 <% @menu_ingredients.each do |menu_ingredient| %>
   <tr>
-    <td><%= link_to 'Show', menu_ingredient %></td>
-    <td><%= link_to 'Edit', edit_menu_ingredient_path(menu_ingredient) %></td>
-    <td><%= link_to 'Destroy', menu_ingredient, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', [@menu, menu_ingredient] %></td>
+    <td><%= link_to 'Edit', edit_menu_menu_ingredient_path(@menu, menu_ingredient) %></td>
+    <td><%= link_to 'Destroy', [@menu, menu_ingredient], :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Menu ingredient', new_menu_ingredient_path %>
+<%= link_to 'New Menu ingredient', new_menu_menu_ingredient_path(@menu) %>

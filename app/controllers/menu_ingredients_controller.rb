@@ -1,4 +1,6 @@
 class MenuIngredientsController < ApplicationController
+  before_filter :find_menu
+
   # GET /menu_ingredients
   # GET /menu_ingredients.xml
   # GET /menu_ingredients.json
@@ -92,4 +94,9 @@ class MenuIngredientsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  protected
+    def find_menu
+      @menu = Menu.find(params[:menu_id])
+    end
 end

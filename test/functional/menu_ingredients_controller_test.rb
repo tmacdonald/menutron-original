@@ -2,48 +2,52 @@ require 'test_helper'
 
 class MenuIngredientsControllerTest < ActionController::TestCase
   setup do
+    @menu = menus(:one)
     @menu_ingredient = menu_ingredients(:one)
   end
 
   test "should get index" do
-    get :index
+    get :index, :menu_id => @menu.id, :format => "json"
     assert_response :success
     assert_not_nil assigns(:menu_ingredients)
   end
 
   test "should get new" do
-    get :new
+    get :new, :menu_id => @menu.id
     assert_response :success
   end
 
   test "should create menu_ingredient" do
+    menu_ingredient = MenuIngredient.new
+    menu_ingredient.ingredient_name = "bananas"
+  
     assert_difference('MenuIngredient.count') do
-      post :create, :menu_ingredient => @menu_ingredient.attributes
+      post :create, :menu_id => @menu.id, :menu_ingredient => menu_ingredient.attributes, :format => "json"
     end
 
-    assert_redirected_to menu_ingredient_path(assigns(:menu_ingredient))
+    assert_response :success
   end
 
   test "should show menu_ingredient" do
-    get :show, :id => @menu_ingredient.to_param
+    get :show, :menu_id => @menu.id, :id => @menu_ingredient.to_param, :format => "json"
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => @menu_ingredient.to_param
+    get :edit, :menu_id => @menu.id, :id => @menu_ingredient.to_param
     assert_response :success
   end
 
   test "should update menu_ingredient" do
-    put :update, :id => @menu_ingredient.to_param, :menu_ingredient => @menu_ingredient.attributes
-    assert_redirected_to menu_ingredient_path(assigns(:menu_ingredient))
+    put :update, :id => @menu_ingredient.to_param, :menu_ingredient => @menu_ingredient.attributes, :format => "json"
+    assert_response :success
   end
 
   test "should destroy menu_ingredient" do
     assert_difference('MenuIngredient.count', -1) do
-      delete :destroy, :id => @menu_ingredient.to_param
+      delete :destroy, :menu_id => @menu.id, :id => @menu_ingredient.to_param, :format => "json"
     end
 
-    assert_redirected_to menu_ingredients_path
+    assert_response :success
   end
 end

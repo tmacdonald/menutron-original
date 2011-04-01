@@ -1,9 +1,10 @@
 class GroceriesController < ApplicationController
+  before_filter :find_menu
+
   # GET /menus/:menu_id/groceries
   # GET /menus/:menu_id/groceries.json
   # GET /menus/:menu_id/groceries.xml
   def index
-    @menu = Menu.find(params[:menu_id])
     @groceries = @menu.groceries
 
     respond_to do |format|
@@ -29,7 +30,6 @@ class GroceriesController < ApplicationController
   # GET /groceries/new
   # GET /groceries/new.xml
   def new
-    @menu = Menu.find(params[:menu_id])
     @grocery = Grocery.new
 
     respond_to do |format|
@@ -40,7 +40,6 @@ class GroceriesController < ApplicationController
 
   # GET /groceries/1/edit
   def edit
-    @menu = Menu.find(params[:menu_id])
     @grocery = Grocery.find(params[:id])
   end
 
@@ -95,4 +94,9 @@ class GroceriesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  protected
+    def find_menu
+      @menu = Menu.find(params[:menu_id])
+    end
 end
