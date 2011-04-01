@@ -15,13 +15,10 @@
     <td><%= recipe_direction.text %></td>
     <td><%= recipe_direction.order %></td>
     <td><%= recipe_direction.recipe %></td>
-    <td><%= link_to 'Show', recipe_direction %></td>
-    <td><%= link_to 'Edit', edit_recipe_direction_path(recipe_direction) %></td>
-    <td><%= link_to 'Destroy', recipe_direction, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', [recipe_direction.recipe, recipe_direction] %></td>
+    <td><%= link_to 'Edit', edit_recipe_recipe_direction_path(recipe_direction.recipe, recipe_direction) %></td>
+    <td><%= link_to 'Destroy', [recipe_direction.recipe, recipe_direction], :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
-<br />
-
-<%= link_to 'New Recipe direction', new_recipe_direction_path %>

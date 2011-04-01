@@ -29,6 +29,7 @@ class GroceriesController < ApplicationController
   # GET /groceries/new
   # GET /groceries/new.xml
   def new
+    @menu = Menu.find(params[:menu_id])
     @grocery = Grocery.new
 
     respond_to do |format|
@@ -39,6 +40,7 @@ class GroceriesController < ApplicationController
 
   # GET /groceries/1/edit
   def edit
+    @menu = Menu.find(params[:menu_id])
     @grocery = Grocery.find(params[:id])
   end
 

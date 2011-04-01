@@ -2,48 +2,55 @@ require 'test_helper'
 
 class GroceriesControllerTest < ActionController::TestCase
   setup do
+    @menu = menus(:one)
     @grocery = groceries(:one)
   end
 
   test "should get index" do
-    get :index
+    get :index, :menu_id => @menu.id, :format => "json"
     assert_response :success
     assert_not_nil assigns(:groceries)
   end
 
   test "should get new" do
-    get :new
+    get :new, :menu_id => @menu.id
     assert_response :success
   end
 
   test "should create grocery" do
+    grocery = Grocery.new
+    grocery.ingredient_name = "bananas"
+
     assert_difference('Grocery.count') do
-      post :create, :grocery => @grocery.attributes
+      post :create, :menu_id => @menu.id, :grocery => grocery.attributes, :format => "json"
     end
 
-    assert_redirected_to grocery_path(assigns(:grocery))
+    assert_response :success
   end
 
   test "should show grocery" do
-    get :show, :id => @grocery.to_param
+    get :show, :menu_id => @menu.id, :id => @grocery.to_param, :format => "json"
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => @grocery.to_param
+    get :edit, :menu_id => @menu.id, :id => @grocery.to_param
     assert_response :success
   end
 
   test "should update grocery" do
-    put :update, :id => @grocery.to_param, :grocery => @grocery.attributes
-    assert_redirected_to grocery_path(assigns(:grocery))
+    grocery = Grocery.new
+    grocery.ingredient_name = "bananas"
+
+    put :update, :menu_id => @menu.id, :id => @grocery.to_param, :grocery => grocery.attributes, :format => "json"
+    assert_response :success
   end
 
   test "should destroy grocery" do
     assert_difference('Grocery.count', -1) do
-      delete :destroy, :id => @grocery.to_param
+      delete :destroy, :menu_id => @menu.id, :id => @grocery.to_param, :format => "json"
     end
 
-    assert_redirected_to groceries_path
+    assert_response :success
   end
 end
