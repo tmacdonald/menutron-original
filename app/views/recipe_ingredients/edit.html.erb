@@ -2,5 +2,5 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @recipe_ingredient %> |
-<%= link_to 'Back', recipe_ingredients_path %>
+<%= link_to 'Show', [@recipe,@recipe_ingredient] %> |
+<%= link_to 'Back', recipe_recipe_ingredients_path(@recipe) %>

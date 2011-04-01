@@ -16,15 +16,10 @@
 </p>
 
 <p>
-  <b>Measurement adjectives:</b>
-  <%= @recipe_ingredient.measurement_adjectives %>
-</p>
-
-<p>
   <b>Preparation:</b>
   <%= @recipe_ingredient.preparation %>
 </p>
 
 
-<%= link_to 'Edit', edit_recipe_ingredient_path(@recipe_ingredient) %> |
-<%= link_to 'Back', recipe_ingredients_path %>
+<%= link_to 'Edit', edit_recipe_recipe_ingredient_path(@recipe,@recipe_ingredient) %> |
+<%= link_to 'Back', recipe_recipe_ingredients_path(@recipe) %>

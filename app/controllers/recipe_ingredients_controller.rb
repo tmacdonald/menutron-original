@@ -5,7 +5,7 @@ class RecipeIngredientsController < ApplicationController
   # GET /recipe_ingredients.xml
   # GET /recipe_ingredients.json
   def index
-    @recipe_ingredients = RecipeIngredient.all
+    @recipe_ingredients = @recipe.ingredients
 
     respond_to do |format|
       format.html # index.html.erb
@@ -51,9 +51,9 @@ class RecipeIngredientsController < ApplicationController
 
     respond_to do |format|
       if @recipe_ingredient.save
-        format.html { redirect_to(@recipe_ingredient, :notice => 'Recipe ingredient was successfully created.') }
-        format.xml  { render :xml => @recipe_ingredient, :status => :created, :location => @recipe_ingredient }
-        format.json { render :json => @recipe_ingredient.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :created, :location => @recipe_ingredient }
+        format.html { redirect_to([@recipe,@recipe_ingredient], :notice => 'Recipe ingredient was successfully created.') }
+        format.xml  { render :xml => @recipe_ingredient, :status => :created, :location => [@recipe,@recipe_ingredient] }
+        format.json { render :json => @recipe_ingredient.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :created, :location => [@recipe,@recipe_ingredient] }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @recipe_ingredient.errors, :status => :unprocessable_entity }
@@ -70,7 +70,7 @@ class RecipeIngredientsController < ApplicationController
 
     respond_to do |format|
       if @recipe_ingredient.update_attributes(params[:recipe_ingredient])
-        format.html { redirect_to(@recipe_ingredient, :notice => 'Recipe ingredient was successfully updated.') }
+        format.html { redirect_to([@recipe,@recipe_ingredient], :notice => 'Recipe ingredient was successfully updated.') }
         format.xml  { head :ok }
         format.json { head :ok }
       else
@@ -89,7 +89,7 @@ class RecipeIngredientsController < ApplicationController
     @recipe_ingredient.destroy
 
     respond_to do |format|
-      format.html { redirect_to(recipe_ingredients_url) }
+      format.html { redirect_to(recipe_recipe_ingredients_url(@recipe)) }
       format.xml  { head :ok }
       format.json { head :ok }
     end

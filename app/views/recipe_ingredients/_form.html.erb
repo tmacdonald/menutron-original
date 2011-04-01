@@ -1,4 +1,4 @@
-<%= form_for(@recipe_ingredient) do |f| %>
+<%= form_for([@recipe,@recipe_ingredient]) do |f| %>
   <% if @recipe_ingredient.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@recipe_ingredient.errors.count, "error") %> prohibited this recipe_ingredient from being saved:</h2>
@@ -22,10 +22,6 @@
   <div class="field">
     <%= f.label :amount %><br />
     <%= f.text_field :amount %>
-  </div>
-  <div class="field">
-    <%= f.label :measurement_adjectives %><br />
-    <%= f.text_field :measurement_adjectives %>
   </div>
   <div class="field">
     <%= f.label :preparation %><br />
