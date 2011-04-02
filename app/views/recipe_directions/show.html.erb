@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Text:</b>
+  <%= @recipe_direction.text %>
+</p>
+
+<p>
+  <b>Order:</b>
+  <%= @recipe_direction.order %>
+</p>
+
+<%= link_to 'Edit', edit_recipe_recipe_direction_path(@recipe, @recipe_direction) %> |
+<%= link_to 'Back', recipe_recipe_directions_path(@recipe) %>

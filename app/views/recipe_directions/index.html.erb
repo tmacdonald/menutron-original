@@ -1,0 +1,24 @@
+<h1>Listing recipe_directions</h1>
+
+<table>
+  <tr>
+    <th>Text</th>
+    <th>Order</th>
+    <th>Recipe</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @recipe_directions.each do |recipe_direction| %>
+  <tr>
+    <td><%= recipe_direction.text %></td>
+    <td><%= recipe_direction.order %></td>
+    <td><%= recipe_direction.recipe %></td>
+    <td><%= link_to 'Show', [recipe_direction.recipe, recipe_direction] %></td>
+    <td><%= link_to 'Edit', edit_recipe_recipe_direction_path(recipe_direction.recipe, recipe_direction) %></td>
+    <td><%= link_to 'Destroy', [recipe_direction.recipe, recipe_direction], :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  menu_id: menus(:one).id 
+  amount: 1.5
+  measurement_id: measurements(:one).id
+  ingredient_id: ingredients(:one).id
+
+two:
+  menu_id: menus(:two).id
+  amount: 1.5
+  measurement_id: measurements(:two).id 
+  ingredient_id: ingredients(:two).id 

@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  regex: MyString
+
+two:
+  name: MyString
+  regex: MyString
+
+cups:
+  name: cups
+  regex: cups?
+
+tbsps:
+  name: tablespoons
+  regex: tbsps?

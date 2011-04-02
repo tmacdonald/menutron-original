@@ -1,4 +1,24 @@
 Menutron::Application.routes.draw do
+
+  resource :user_session
+  resource :account, :controller => "users"
+  resources :users
+
+  resources :measurements
+
+  resources :menus do 
+    resources :menu_recipes, :path => "recipes"
+    resources :menu_ingredients, :path => "ingredients"
+    resources :groceries
+  end
+
+  resources :recipes do 
+    resources :recipe_ingredients, :path => "ingredients"
+    resources :recipe_directions, :path => "directions"
+  end
+
+  resources :ingredients
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

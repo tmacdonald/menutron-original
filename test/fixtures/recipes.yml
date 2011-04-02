@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyRecipe1
+  description: MyString
+  servings: 1
+  slug: my-recipe-1
+
+two:
+  name: MyRecipe2
+  description: MyString
+  servings: 2
+  slug: my-recipe-2

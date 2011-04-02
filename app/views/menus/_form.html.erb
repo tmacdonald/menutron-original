@@ -1,0 +1,61 @@
+<%= form_for(@menu) do |f| %>
+  <% if @menu.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@menu.errors.count, "error") %> prohibited this menu from being saved:</h2>
+
+      <ul>
+      <% @menu.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+
+  <h2>Meals</h2>
+  <%= f.fields_for :meals do |mf| %>
+  <div class="field">
+    <% unless mf.object.new_record? %>
+      <%= mf.check_box :_destroy %>
+    <% end %>
+    <%= mf.label :name %>
+    <%= mf.text_field :name %>
+  </div>
+  <% end %>
+
+  <h2>Recipes</h2>
+  <%= f.fields_for :recipes do |rf| %>
+  <div class="field">
+    <% unless rf.object.new_record? %>
+      <%= rf.check_box :_destroy %>
+    <% end %>
+    <%= rf.label :recipe %>
+    <%= rf.collection_select :recipe_id, Recipe.all, :id, :name, :include_blank => 'None' %>
+    <%= rf.label :servings %>
+    <%= rf.text_field :servings %>
+  </div>
+  <% end %>
+
+  <h2>Ingredients</h2>
+  <%= f.fields_for :ingredients do |fi| %>
+  <div class="field">
+    <% unless fi.object.new_record? %>
+      <%= fi.check_box :_destroy %>
+    <% end %>
+    <%= fi.label :ingredient %>
+    <%= fi.collection_select :ingredient_id, Ingredient.all, :id, :name, :include_blank => 'None' %>
+  </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
