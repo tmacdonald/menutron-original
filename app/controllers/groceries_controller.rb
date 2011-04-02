@@ -1,5 +1,6 @@
 class GroceriesController < ApplicationController
   before_filter :find_menu
+  before_filter :require_user
 
   # GET /menus/:menu_id/groceries
   # GET /menus/:menu_id/groceries.json

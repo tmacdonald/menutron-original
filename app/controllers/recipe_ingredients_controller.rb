@@ -1,5 +1,6 @@
 class RecipeIngredientsController < ApplicationController
   before_filter :find_recipe
+  before_filter :require_user, :except => [:index]
 
   # GET /recipe_ingredients
   # GET /recipe_ingredients.xml

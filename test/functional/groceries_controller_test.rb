@@ -4,6 +4,7 @@ class GroceriesControllerTest < ActionController::TestCase
   setup do
     @menu = menus(:one)
     @grocery = groceries(:one)
+    UserSession.create(users(:one))
   end
 
   test "should get index" do
@@ -52,5 +53,47 @@ class GroceriesControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to menu_groceries_path(@menu)
+  end
+
+  test "should get index using json" do
+    get :index, :menu_id => @menu.to_param, :format => "json"
+    assert_response :success
+    assert_not_nil assigns(:groceries)
+  end
+
+  test "should create grocery using json" do
+    grocery = Grocery.new
+    grocery.ingredient_name = "bananas"
+
+    assert_difference('Grocery.count') do
+      post :create, :menu_id => @menu.id, :grocery => grocery.attributes, :format => "json"
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:grocery)
+  end
+
+  test "should show grocery using json" do
+    get :show, :menu_id => @menu.to_param, :id => @grocery.to_param, :format => "json"
+    assert_response :success
+    assert_not_nil assigns(:grocery)
+ end
+
+  test "should update grocery using json" do
+    grocery = Grocery.new
+    grocery.ingredient_name = "bananas"
+
+    put :update, :menu_id => @menu.id, :id => @grocery.to_param, :grocery => grocery.attributes, :format => "json"
+
+    assert_response :success
+    assert_not_nil assigns(:grocery)
+  end
+
+  test "should destroy grocery using json" do
+    assert_difference('Grocery.count', -1) do
+      delete :destroy, :menu_id => @menu.to_param, :id => @grocery.to_param, :format => "json"
+    end
+
+    assert_response :success
   end
 end

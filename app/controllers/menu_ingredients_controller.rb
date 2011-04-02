@@ -1,5 +1,6 @@
 class MenuIngredientsController < ApplicationController
   before_filter :find_menu
+  before_filter :require_user
 
   # GET /menu_ingredients
   # GET /menu_ingredients.xml

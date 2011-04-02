@@ -4,6 +4,7 @@ class RecipeDirectionsControllerTest < ActionController::TestCase
   setup do
     @recipe = recipes(:one)
     @recipe_direction = recipe_directions(:one)
+    UserSession.create(users(:one))
   end
 
   test "should get index" do
@@ -46,5 +47,40 @@ class RecipeDirectionsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to recipe_recipe_directions_path(@recipe)
+  end
+
+  test "should get index using json" do
+    get :index, :recipe_id => @recipe.to_param, :format => "json"
+    assert_response :success
+    assert_not_nil assigns(:recipe_directions)
+  end
+
+  test "should create recipe_direction using json" do
+    assert_difference('RecipeDirection.count') do
+      post :create, :recipe_id => @recipe.to_param, :recipe_direction => @recipe_direction.attributes, :format => "json"
+    end
+
+    assert_response :success
+    assert_not_nil assigns(:recipe_direction)
+  end
+
+  test "should show recipe_direction using json" do
+    get :show, :recipe_id => @recipe.to_param, :id => @recipe_direction.to_param, :format => "json"
+    assert_response :success
+    assert_not_nil assigns(:recipe_direction)
+ end
+
+  test "should update recipe_direction using json" do
+    put :update, :recipe_id => @recipe.to_param, :id => @recipe_direction.to_param, :recipe_direction => @recipe_direction.attributes, :format => "json"
+    assert_response :success
+    assert_not_nil assigns(:recipe_direction)
+  end
+
+  test "should destroy recipe_direction using json" do
+    assert_difference('RecipeDirection.count', -1) do
+      delete :destroy, :recipe_id => @recipe.to_param, :id => @recipe_direction.to_param, :format => "json"
+    end
+
+    assert_response :success
   end
 end
