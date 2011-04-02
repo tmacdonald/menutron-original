@@ -7,3 +7,11 @@ one:
 two:
   name: MyString
   plural: false
+
+blueberries:
+  name: blueberries
+  plural: true
+
+watermelon:
+  name: watermelon
+  plural: false
