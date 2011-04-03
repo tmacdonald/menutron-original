@@ -1,13 +1,24 @@
-<%= form.fields_for :ingredients do |ingredient_form| %>
-<div class="field">
-  <% unless ingredient_form.object.new_record? %>
-    <%= ingredient_form.check_box :_destroy %>
-  <% end %>
-  <%= ingredient_form.label :how_much %>
-  <%= ingredient_form.text_field :how_much %>
-  <%= ingredient_form.label :ingredient_name %>
-  <%= ingredient_form.text_field :ingredient_name %>
-  <%= ingredient_form.label :preparation %>
-  <%= ingredient_form.text_field :preparation %>
-</div>
-<% end %>
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>How Much</th>
+      <th>Ingredient</th>
+      <th>Preparation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= form.fields_for :ingredients do |ingredient_form| %>
+    <tr class="field">
+      <td>
+      <% unless ingredient_form.object.new_record? %>
+        <%= ingredient_form.check_box :_destroy %>
+      <% end %>
+      </td>
+      <td><%= ingredient_form.text_field :how_much %></td>
+      <td><%= ingredient_form.text_field :ingredient_name %></td>
+      <td><%= ingredient_form.text_field :preparation %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

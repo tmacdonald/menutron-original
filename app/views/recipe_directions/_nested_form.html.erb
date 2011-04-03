@@ -1,11 +1,22 @@
-<%= form.fields_for :directions do |df| %>
-<div class="field">
-  <% unless df.object.new_record? %>
-    <%= df.check_box :_destroy %>
-  <% end %>
-  <%= df.label :text %>
-  <%= df.text_area :text, :rows => 3 %>
-  <%= df.label :order %>
-  <%= df.text_field :order %>
-</div>
-<% end %>
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Direction</th>
+      <th>Order</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= form.fields_for :directions do |df| %>
+    <tr class="field">
+      <td> 
+      <% unless df.object.new_record? %>
+        <%= df.check_box :_destroy %>
+      <% end %>
+      </td>
+      <td><%= df.text_area :text, :rows => 3 %></td>
+      <td><%= df.text_field :order %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
