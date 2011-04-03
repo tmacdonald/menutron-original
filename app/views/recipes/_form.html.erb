@@ -1,3 +1,9 @@
+<%
+  content_for(:head) do
+    javascript_include_tag "recipes/edit"
+  end
+%>
+
 <%= form_for(@recipe) do |f| %>
   <% if @recipe.errors.any? %>
     <div id="error_explanation">
@@ -25,6 +31,9 @@
   </div>
 
   <h2>Directions</h2>
+
+  <% @recipe_direction = @recipe.directions.new %>
+  <%= render :partial => "recipe_directions/form" %>
 
   <%= render :partial => "recipe_directions/nested_form", :locals => { :form => f } %>
 
