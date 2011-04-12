@@ -31,7 +31,6 @@ class RecipesController < ApplicationController
   # GET /recipes/new.xml
   def new
     @recipe = Recipe.new
-    @recipe.ingredients.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,7 +41,6 @@ class RecipesController < ApplicationController
   # GET /recipes/1/edit
   def edit
     @recipe = Recipe.find_by_slug(params[:id])
-    @recipe.ingredients.build
   end
 
   # POST /recipes

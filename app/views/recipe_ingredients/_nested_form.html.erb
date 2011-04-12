@@ -1,24 +1,20 @@
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th>How Much</th>
-      <th>Ingredient</th>
-      <th>Preparation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= form.fields_for :ingredients do |ingredient_form| %>
-    <tr class="field">
-      <td>
-      <% unless ingredient_form.object.new_record? %>
-        <%= ingredient_form.check_box :_destroy %>
-      <% end %>
-      </td>
-      <td><%= ingredient_form.text_field :how_much %></td>
-      <td><%= ingredient_form.text_field :ingredient_name %></td>
-      <td><%= ingredient_form.text_field :preparation %></td>
-    </tr>
+<div id="ingredients">  
+  <%= form.fields_for :ingredients do |ingredient_form| %>
+  <div class="ingredient <%= 'new' if ingredient_form.object.new_record? %>">
+    <% unless ingredient_form.object.new_record? %>
+      <%= ingredient_form.check_box :_destroy %>
     <% end %>
-  </tbody>
-</table>
+    <%= ingredient_form.text_field :how_much %>
+    <%= ingredient_form.text_field :ingredient_name %></td>
+    <%= ingredient_form.text_field :preparation %></td>
+  </div>
+  <% end %>
+</div>
+
+<script id="new_ingredient_template" type="text/template">
+  <div class="ingredient new">
+    <input id="recipe_ingredients_attributes_{{i}}_how_much" name="recipe[ingredients_attributes][{{i}}][how_much]" size="30" type="text" value="{{how_much}}" />
+    <input id="recipe_ingredients_attributes_{{i}}_ingredient_name" name="recipe[ingredients_attributes][{{i}}][ingredient_name]" size="30" type="text" value="{{ingredient_name}}" />
+    <input id="recipe_ingredients_attributes_{{i}}_preparation" name="recipe[ingredients_attributes][{{i}}][preparation]" size="30" type="text" value="{{preparation}}" />
+  </div>
+</script>

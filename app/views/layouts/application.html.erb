@@ -3,6 +3,7 @@
 <head>
   <title>Menutron</title>
   <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag "https://github.com/janl/mustache.js/raw/master/mustache.js" %>
   <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" %>
   <%= yield(:head) %>
   <%= csrf_meta_tag %>

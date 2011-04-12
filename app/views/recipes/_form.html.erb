@@ -32,9 +32,6 @@
 
   <h2>Directions</h2>
 
-  <% @recipe_direction = @recipe.directions.new %>
-  <%= render :partial => "recipe_directions/form" %>
-
   <%= render :partial => "recipe_directions/nested_form", :locals => { :form => f } %>
 
   <h2>Ingredients</h2>
@@ -45,3 +42,4 @@
     <%= f.submit %>
   </div>
 <% end %>
+
