@@ -5,8 +5,12 @@ class Recipe < ActiveRecord::Base
   has_many :directions, :class_name => "RecipeDirection", :dependent => :destroy
   has_many :ingredients, :class_name => "RecipeIngredient", :dependent => :destroy
 
-  accepts_nested_attributes_for :directions, :reject_if => :all_blank, :allow_destroy => true
-  accepts_nested_attributes_for :ingredients, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :directions, 
+                                :allow_destroy => true,
+                                :reject_if => proc { |attrs| reject = %w(text).all?{ |a| attrs[a].blank? } }
+  accepts_nested_attributes_for :ingredients, 
+                                :allow_destroy => true,
+                                :reject_if => proc { |attrs| reject = %w(how_much ingredient_name preparation).all?{ |a| attrs[a].blank? } }
 
   def create_slug
     self.slug = self.name.parameterize
