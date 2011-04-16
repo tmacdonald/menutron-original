@@ -2,6 +2,9 @@
   content_for(:head) do
     javascript_include_tag "recipes/edit"
   end
+  content_for(:head) do
+    stylesheet_link_tag "recipes/edit"
+  end
 %>
 
 <%= form_for(@recipe) do |f| %>
@@ -30,13 +33,11 @@
     <%= f.text_field :servings %>
   </div>
 
-  <h2>Directions</h2>
+  <div id="dependents">
+    <%= render :partial => "recipe_directions/nested_form", :locals => { :form => f } %>
 
-  <%= render :partial => "recipe_directions/nested_form", :locals => { :form => f } %>
-
-  <h2>Ingredients</h2>
-
-  <%= render :partial => "recipe_ingredients/nested_form", :locals => { :form => f } %>
+    <%= render :partial => "recipe_ingredients/nested_form", :locals => { :form => f } %>
+  </div> <!-- #dependents -->
 
   <div class="actions">
     <%= f.submit %>

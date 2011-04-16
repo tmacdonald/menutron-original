@@ -35,6 +35,7 @@ $(document).ready( function() {
   function onclick_add_ingredient( e ) {
     add_ingredient( $("#how_much").val(), $("#ingredient_name").val(), $("#preparation").val() );
     $("#ingredient_form :input").val( "" );
+    $("#how_much").focus();
 
     e.preventDefault();
     return false;
@@ -43,6 +44,7 @@ $(document).ready( function() {
   function onclick_add_direction( e ) {
     add_direction( $("#text").val() );
     $("#direction_form :input").val( "" );
+    $("#text").focus();
 
     e.preventDefault();
     return false;
