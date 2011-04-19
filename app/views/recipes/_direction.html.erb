@@ -1,0 +1,8 @@
+<div class="direction">
+<%= form.fields_for :directions, direction do |f| %>
+  <p>
+    <%= f.text_field :text, :placeholder => "Direction" %>
+    <%= link_to_function "remove", "$(this).up('.direction').remove()" %>
+  </p>
+<% end %>
+</div> 
