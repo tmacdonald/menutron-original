@@ -1,0 +1,10 @@
+<h2>Ingredients</h2>
+<%= form.fields_for :ingredients do |fi| %>
+<div class="field">
+  <% unless fi.object.new_record? %>
+    <%= fi.check_box :_destroy %>
+  <% end %>
+  <%= fi.label :ingredient %>
+  <%= fi.collection_select :ingredient_id, Ingredient.all, :id, :name, :include_blank => 'None' %>
+</div>
+<% end %>
