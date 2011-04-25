@@ -1,0 +1,15 @@
+<h2>Meals</h2>
+<%= form.fields_for :meals do |mf| %>
+<div class="field">
+  <% unless mf.object.new_record? %>
+    <%= mf.check_box :_destroy %>
+  <% end %>
+  <%= mf.label :name %>
+  <%= mf.text_field :name %>
+
+  <%= render :partial => "menu_recipes/nested_form", :locals => { :form => mf } %>
+
+  <%= render :partial => "menu_ingredients/nested_form", :locals => { :form => mf } %>
+
+</div>
+<% end %>
