@@ -18,7 +18,7 @@ class MenusController < ApplicationController
   # GET /menus/1.xml
   # GET /menus/1.json
   def show
-    @menu = Menu.includes(:ingredients => [:ingredient, :measurement], :recipes => [:recipe], :groceries => [:ingredient, :measurement]).find(params[:id])
+    @menu = current_user.menus.includes(:ingredients => [:ingredient, :measurement], :recipes => [:recipe], :groceries => [:ingredient, :measurement]).find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -45,7 +45,7 @@ class MenusController < ApplicationController
 
   # GET /menus/1/edit
   def edit
-    @menu = Menu.includes(:recipes => [:recipe], :ingredients => [:ingredient]).find(params[:id])
+    @menu = current_user.menus.includes(:recipes => [:recipe], :ingredients => [:ingredient]).find(params[:id])
     1.times.each do
       meal = @menu.meals.build
       meal.recipes.build
@@ -77,7 +77,7 @@ class MenusController < ApplicationController
   # PUT /menus/1.xml
   # PUT /menus/1.json
   def update
-    @menu = Menu.find(params[:id])
+    @menu = current_user.menus.find(params[:id])
 
     respond_to do |format|
       if @menu.update_attributes(params[:menu])
@@ -96,7 +96,7 @@ class MenusController < ApplicationController
   # DELETE /menus/1.xml
   # DELETE /menus/1.json
   def destroy
-    @menu = Menu.find(params[:id])
+    @menu = current_user.menus.find(params[:id])
     @menu.destroy
 
     respond_to do |format|

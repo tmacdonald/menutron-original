@@ -8,3 +8,12 @@
   <%= fi.collection_select :ingredient_id, Ingredient.all, :id, :name, :include_blank => 'None' %>
 </div>
 <% end %>
+
+<script id="new_ingredient_template" type="text/template">
+  <div class="ingredient new">
+    <input id="meal_ingredients_attributes_{{i}}_how_much" name="menu[ingredients_attributes][{{i}}][how_much]" type="text" value="{{how_much}}" />
+    <input id="menu_ingredients_attributes_{{i}}_ingredient_name" name="menu[ingredients_attributes][{{i}}][ingredient_name]" type="text" value="{{ingredient_name}}" />
+    <input id="menu_ingredients_attributes_{{i}}_preparation" name="menu[ingredients_attributes][{{i}}][preparation]" type="text" value="{{preparation}}" />
+    <input id="menu_ingredients_attributes_{{i}}_order" name="menu[ingredients_attributes][{{i}}[order]" type="text" value="{{order}}" class="order" />
+  </div>
+</script>
