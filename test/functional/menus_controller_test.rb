@@ -3,7 +3,10 @@ require 'test_helper'
 class MenusControllerTest < ActionController::TestCase
   setup do
     @menu = menus(:one)
-    UserSession.create(users(:one))
+    @menu.user = users(:one)
+    @menu.save
+
+    user = UserSession.create(users(:one))
   end
 
   test "should get index" do
