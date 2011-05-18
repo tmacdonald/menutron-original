@@ -1,5 +1,11 @@
 <h1>Listing ingredients</h1>
 
+<%= form_for @search, :url => ingredients_path, :html => { :method => :get } do |f| %>
+  <%= f.label :name_contains %>
+  <%= f.text_field :name_contains %>
+  <%= f.submit %>
+<% end %>
+
 <%= paginate @ingredients %>
 
 <table>
