@@ -11,4 +11,6 @@ class Menu < ActiveRecord::Base
   accepts_nested_attributes_for :ingredients, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :meals, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :groceries, :reject_if => :all_blank, :allow_destroy => true
+
+  scope :newest, order("menus.created_at DESC").limit(1)
 end
