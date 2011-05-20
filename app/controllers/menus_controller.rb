@@ -18,23 +18,14 @@ class MenusController < ApplicationController
   # GET /menus/1.xml
   # GET /menus/1.json
   def show
-    @menu = current_user.menus.includes(:ingredients => [:ingredient, :measurement], :recipes => [:recipe], :groceries => [:ingredient, :measurement]).find(params[:id])
+    if (params[:id] == "newest")
+      @menu = current_user.menus.includes_all.newest.first 
+    else
+      @menu = current_user.menus.includes_all.find(params[:id])
+    end
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @menu }
-      format.json { render :json => @menu.to_json(:include => :ingredients ) }
-    end
-  end
-
-  # GET /menus/newest
-  # GET /menus/newest.xml
-  # GET /menus/newest.json
-  def newest
-    @menu = current_user.menus.newest.includes(:ingredients => [:ingredient, :measurement], :recipes => [:recipe], :groceries => [:ingredient, :measurement])
-
-    respond_to do |format|
-      format.html # newest.html.erb
       format.xml  { render :xml => @menu }
       format.json { render :json => @menu }
     end
