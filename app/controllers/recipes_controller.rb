@@ -5,7 +5,7 @@ class RecipesController < ApplicationController
   # GET /recipes.json
   # GET /recipes.xml
   def index
-    @recipes = Recipe.all
+    @recipes = Recipe.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

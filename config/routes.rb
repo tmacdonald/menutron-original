@@ -14,7 +14,7 @@ Menutron::Application.routes.draw do
     resources :groceries
   end
 
-  match 'menu' => 'menu#newest', :as => :menu
+  match 'menu' => 'menu#index', :as => :menu
 
   resources :recipes do 
     resources :recipe_ingredients, :path => "ingredients"

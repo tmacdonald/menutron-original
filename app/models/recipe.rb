@@ -23,4 +23,6 @@ class Recipe < ActiveRecord::Base
   def as_json(options = nil)
     super( {:include => { :ingredients => { :only => [:id], :methods => [:how_much, :ingredient_name] } } } )
   end
+
+  paginates_per 10
 end
