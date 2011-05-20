@@ -19,4 +19,8 @@ class Recipe < ActiveRecord::Base
   def to_param
     slug
   end
+
+  def as_json(options = nil)
+    super( {:include => { :ingredients => { :only => [:id], :methods => [:how_much, :ingredient_name] } } } )
+  end
 end

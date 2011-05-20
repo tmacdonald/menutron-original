@@ -23,6 +23,19 @@ class MenusController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @menu }
+      format.json { render :json => @menu.to_json(:include => :ingredients ) }
+    end
+  end
+
+  # GET /menus/newest
+  # GET /menus/newest.xml
+  # GET /menus/newest.json
+  def newest
+    @menu = current_user.menus.newest.includes(:ingredients => [:ingredient, :measurement], :recipes => [:recipe], :groceries => [:ingredient, :measurement])
+
+    respond_to do |format|
+      format.html # newest.html.erb
+      format.xml  { render :xml => @menu }
       format.json { render :json => @menu }
     end
   end

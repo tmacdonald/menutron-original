@@ -6,4 +6,7 @@ class MenuController < ApplicationController
     @menu = current_user.menus.newest
   end
 
+  # Get /index
+  def index
+  end
 end

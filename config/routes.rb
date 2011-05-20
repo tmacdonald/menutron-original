@@ -7,6 +7,8 @@ Menutron::Application.routes.draw do
   resources :measurements
 
   resources :menus do 
+    get 'newest', :on => :collection
+
     resources :menu_recipes, :path => "recipes"
     resources :menu_ingredients, :path => "ingredients"
     resources :groceries
