@@ -1,4 +1,6 @@
 class Recipe < ActiveRecord::Base
+  default_scope order("name ASC")
+
   before_create :create_slug
   validates_presence_of :name, :servings
 
