@@ -6,7 +6,7 @@ class RecipesController < ApplicationController
   # GET /recipes.xml
   def index
     @search = Recipe.search(params[:search])
-    @recipes = @search.page(params[:page])
+    @recipes = @search.page(params[:page]).includes_all
 
     respond_to do |format|
       format.html # index.html.erb

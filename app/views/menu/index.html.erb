@@ -1,5 +1,6 @@
 <%
-  include_javascript "underscore", "backbone", "menus/index"
+  #include_javascript "underscore", "backbone", "menus/index"
+  include_javascript "underscore", "menu/index"
 %>
 
 <div id="app">
@@ -10,5 +11,14 @@
 </div>
 
 <script id="recipe_template" type="text/template">
-  <td>{{name}}</td>
+  <tr>
+    <td><?= name ?></td>
+    <td>
+    <ul>
+      <? for ( var i in ingredients ) { ?>
+          <li><?= ingredients[i].how_much ?> <?= ingredients[i].ingredient_name ?></li>
+      <? } ?>
+    </ul>
+    </td>
+  </tr>
 </script>

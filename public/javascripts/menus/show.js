@@ -1,0 +1,6 @@
+$(function(){
+
+  $.ajax({
+    url: "/recipes"
+  });
+});

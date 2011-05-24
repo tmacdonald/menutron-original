@@ -1,5 +1,6 @@
 class Recipe < ActiveRecord::Base
   default_scope order("name ASC")
+  scope :includes_all, includes( :ingredients => [:ingredient,:measurement] )
 
   before_create :create_slug
   validates_presence_of :name, :servings
