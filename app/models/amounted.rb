@@ -14,6 +14,10 @@ module Amounted
     [Amounted.format_amount(self.amount), measurement_name].join(" ")
   end
 
+  def format
+    how_much + " " + ingredient_name
+  end
+
   def how_much=(value)
     
     amount_regex = /(?:\d+\s+\d+\s*\/\s*\d+)|(?:\d+\s*\/\s*\d+)|(?:\d+)/

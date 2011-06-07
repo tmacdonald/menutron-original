@@ -1,6 +1,11 @@
 $(function() {
 
-  var recipeTemplate = $('#recipe_template').html();
+  _.templateSettings = {
+    evaluate    : /<\?([\s\S]+?)\?>/g,
+    interpolate : /<\?=([\s\S]+?)\?>/g
+  };
+
+  var recipeTemplate = _.template( $('#recipe_template').html() );
 
   window.Recipe = Backbone.Model.extend ( {
     url: function() { 
@@ -28,7 +33,7 @@ $(function() {
 
     render: function() {
       var recipe = this.model.toJSON();
-      $(this.el).html( Mustache.to_html( recipeTemplate, recipe ) );
+      $(this.el).html( recipeTemplate( recipe ) );
       return this;
     }
   });

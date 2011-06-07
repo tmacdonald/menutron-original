@@ -1,4 +1,7 @@
 class Recipe < ActiveRecord::Base
+  default_scope order("name ASC")
+  scope :includes_all, includes( :ingredients => [:ingredient,:measurement] )
+
   before_create :create_slug
   validates_presence_of :name, :servings
 
@@ -21,7 +24,7 @@ class Recipe < ActiveRecord::Base
   end
 
   def as_json(options = nil)
-    super( {:include => { :ingredients => { :only => [:id], :methods => [:how_much, :ingredient_name] } } } )
+    super( {:include => { :ingredients => { :only => [:id], :methods => [:format] } } } )
   end
 
   paginates_per 10
