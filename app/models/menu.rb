@@ -12,7 +12,8 @@ class Menu < ActiveRecord::Base
   accepts_nested_attributes_for :meals, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :groceries, :reject_if => :all_blank, :allow_destroy => true
 
-  scope :newest, order("menus.created_at DESC").limit(1)
+  scope :newest, order("menus.created_at DESC")
+  scope :includes_meals, includes(:meals => [:ingredients => [:ingredient, :measurement], :recipes => :recipe])
   scope :includes_all, includes(:ingredients => [:ingredient, :measurement], :recipes => [:recipe], :groceries => [:ingredient, :measurement])
 
   def as_json(options = nil)

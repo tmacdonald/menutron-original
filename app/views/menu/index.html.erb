@@ -8,6 +8,24 @@
 <table id="recipe_table">
 </table>
 
+<h2><%= @menu.name %></h2>
+
+<ul id="meals">
+  <%= @menu.meals.each do |meal| %>
+  <li>
+    <%= meal %>
+    <ul id="ingredients">
+      <%= meal.ingredients.each do |ingredient| %>
+        <li><%= ingredient.format %></li>
+      <% end %>
+    </ul>
+  </li>
+
+
+
+  <% end %>
+</ul>
+
 </div>
 
 <script id="recipe_template" type="text/template">
@@ -16,7 +34,7 @@
     <td>
     <ul>
       <? for ( var i in ingredients ) { ?>
-          <li><?= ingredients[i].how_much ?> <?= ingredients[i].ingredient_name ?></li>
+          <li><?= ingredients[i].format ?></li>
       <? } ?>
     </ul>
     </td>
