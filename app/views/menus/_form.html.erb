@@ -20,7 +20,9 @@
     <%= f.text_field :description %>
   </div>
 
-  <%= render :partial =>  "meals/nested_form", :locals => { :form => f } %>
+  <%= render :partial => "menu_recipes/nested_form", :locals => { :form => f } %>
+
+  <%= render :partial => "menu_ingredients/nested_form", :locals => { :form => f } %>
 
   <div class="actions">
     <%= f.submit %>

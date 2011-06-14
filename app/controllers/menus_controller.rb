@@ -49,11 +49,11 @@ class MenusController < ApplicationController
 
   # GET /menus/1/edit
   def edit
-    @menu = current_user.menus.includes(:recipes => [:recipe], :ingredients => [:ingredient]).find(params[:id])
+    @menu = current_user.menus.includes_all.find(params[:id])
     1.times.each do
       meal = @menu.meals.build
-      meal.recipes.build
-      meal.ingredients.build
+      @menu.recipes.build
+      @menu.ingredients.build 
     end
   end
 
