@@ -31,6 +31,19 @@ class MenusController < ApplicationController
     end
   end
 
+  # GET /menus/current
+  # GET /menus/current.xml
+  # GET /menus/current.json
+  def current
+    @menu = current_user.menus.includes_all.newest.first
+
+    respond_to do |format|
+      format.html #current.html.erb
+      format.xml  { render :xml => @menu }
+      format.json { render :json => @menu }
+    end
+  end
+
   # GET /menus/new
   # GET /menus/new.xml
   def new

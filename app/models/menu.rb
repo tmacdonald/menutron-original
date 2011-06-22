@@ -17,6 +17,6 @@ class Menu < ActiveRecord::Base
   scope :includes_all, includes(:ingredients => [:ingredient, :measurement], :recipes => [:recipe], :groceries => [:ingredient, :measurement])
 
   def as_json(options = nil)
-    super( {:include => { :ingredients => { :measurement, :ingredient }, :recipes => { :recipe => {} }, :groceries => { :measurement, :ingredient } } } )
+    super( {:except => [:created_at,:updated_at], :include => { :ingredients => { :only => :id, :methods => [:ingredient_name,:how_much] }, :recipes => { :only => [:id,:name,:servings,:slug], :include => :recipe }, :groceries => { :only => :id, :methods => [:ingredient_name,:how_much] } } } )
   end
 end

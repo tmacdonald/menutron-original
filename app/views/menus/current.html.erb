@@ -1,0 +1,21 @@
+<%
+  include_javascript "underscore", "backbone", "menus/current"
+%>
+
+<script type='text/javascript'>
+  var menu = <%= raw @menu.to_json %>;
+</script>
+
+<div id="menu"></div>
+
+<script id="menu_template" type="text/template">
+  {{name}}
+</script>
+
+<script id="recipe_template" type="text/template">
+  servings: {{servings}}
+  {{#recipe}}
+    name: {{name}}
+  {{/recipe}}
+</script>
+
