@@ -1,6 +1,28 @@
 <%= link_to "Groceries", menu_groceries_path(@menu) %>
 
-<%= render 'form' %>
+<%= include_javascript "menus/edit" %>
+
+<script type="text/javascript">
+  var recipes = <%= raw @recipes.to_json %>;
+  var menu = <%= raw @menu.to_json %>;
+</script>
+
+<div id="recipes">
+</div> <!-- #recipes -->
+
+<div id="dropzone">
+  <p>Drag and drop recipes here to add them to the menu.</p>
+</div> <!-- #dropzone -->
+
+<div id="menu">
+</div> <!-- #menu -->
 
 <%= link_to 'Show', @menu %> |
 <%= link_to 'Back', menus_path %>
+
+<script id="recipe_template" type="text/template">
+  servings: {{servings}}
+  {{#recipe}}
+    name: {{name}}
+  {{/recipe}}
+</script>

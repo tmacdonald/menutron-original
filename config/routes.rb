@@ -10,9 +10,12 @@ Menutron::Application.routes.draw do
     resources :menu_recipes, :path => "recipes"
     resources :menu_ingredients, :path => "ingredients"
     resources :groceries
+    collection do
+      get 'current'
+    end
   end
 
-  match 'menu' => 'menu#index', :as => :menu
+  #match 'menu' => 'menu#index', :as => :menu
 
   resources :recipes do 
     resources :recipe_ingredients, :path => "ingredients"

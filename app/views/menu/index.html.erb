@@ -5,26 +5,11 @@
 
 <div id="app">
 
-<table id="recipe_table">
+<table id="recipes">
 </table>
 
-<h2><%= @menu.name %></h2>
-
-<ul id="meals">
-  <%= @menu.meals.each do |meal| %>
-  <li>
-    <%= meal %>
-    <ul id="ingredients">
-      <%= meal.ingredients.each do |ingredient| %>
-        <li><%= ingredient.format %></li>
-      <% end %>
-    </ul>
-  </li>
-
-
-
-  <% end %>
-</ul>
+<div id="menu">
+</div>
 
 </div>
 
@@ -39,4 +24,8 @@
     </ul>
     </td>
   </tr>
+</script>
+
+<script id="menu_template" type="text/template">
+  <h2><?= name ?></h2>
 </script>

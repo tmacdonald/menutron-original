@@ -31,6 +31,19 @@ class MenusController < ApplicationController
     end
   end
 
+  # GET /menus/current
+  # GET /menus/current.xml
+  # GET /menus/current.json
+  def current
+    @menu = current_user.menus.includes_all.newest.first
+
+    respond_to do |format|
+      format.html #current.html.erb
+      format.xml  { render :xml => @menu }
+      format.json { render :json => @menu }
+    end
+  end
+
   # GET /menus/new
   # GET /menus/new.xml
   def new
@@ -49,12 +62,8 @@ class MenusController < ApplicationController
 
   # GET /menus/1/edit
   def edit
-    @menu = current_user.menus.includes(:recipes => [:recipe], :ingredients => [:ingredient]).find(params[:id])
-    1.times.each do
-      meal = @menu.meals.build
-      meal.recipes.build
-      meal.ingredients.build
-    end
+    @menu = current_user.menus.includes_all.find(params[:id])
+    @recipes = Recipe.page(1).includes_all
   end
 
   # POST /menus

@@ -7,9 +7,5 @@
   <%= mf.label :name %>
   <%= mf.text_field :name %>
 
-  <%= render :partial => "menu_recipes/nested_form", :locals => { :form => mf } %>
-
-  <%= render :partial => "menu_ingredients/nested_form", :locals => { :form => mf } %>
-
 </div>
 <% end %>
