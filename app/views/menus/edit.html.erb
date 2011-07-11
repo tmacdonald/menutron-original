@@ -2,27 +2,49 @@
 
 <%= include_javascript "menus/edit" %>
 
+<style type="text/css">
+  #dropzone {
+    background: #008000;
+    color: #fff;
+    padding: 1em;
+  }
+</style>
+
 <script type="text/javascript">
   var recipes = <%= raw @recipes.to_json %>;
   var menu = <%= raw @menu.to_json %>;
 </script>
 
-<div id="recipes">
-</div> <!-- #recipes -->
+<ul id="recipes">
+</ul> <!-- #recipes -->
 
 <div id="dropzone">
   <p>Drag and drop recipes here to add them to the menu.</p>
 </div> <!-- #dropzone -->
 
 <div id="menu">
+  <ul id="menu_recipes">
+  </ul>
+
+  <ul id="menu_ingredients">
+  </ul>
 </div> <!-- #menu -->
 
 <%= link_to 'Show', @menu %> |
 <%= link_to 'Back', menus_path %>
 
 <script id="recipe_template" type="text/template">
-  servings: {{servings}}
+  <li id="{{id}}">{{name}}</li>
+</script>
+
+<script id="menu_recipe_template" type="text/template">
+  <li id="{{id}}">
   {{#recipe}}
-    name: {{name}}
+    {{name}}
   {{/recipe}}
+  </li>
+</script>
+
+<script id="menu_ingredient_template" type="text/template">
+  <li id="{{id}}">{{how_much}} {{ingredient_name}}</li>
 </script>
