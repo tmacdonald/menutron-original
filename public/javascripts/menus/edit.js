@@ -8,6 +8,9 @@ $(function() {
     for ( var i = 0; i < recipes.length; i++ ) {
       $('#recipes').append( Mustache.to_html( recipe_template, recipes[i] ) );
     }
+    $('#recipes li').draggable( {
+      helper: "clone"
+    });
   };
   render_recipes();
 
@@ -16,21 +19,26 @@ $(function() {
     for ( var i = 0; i < menu.recipes.length; i++ ) {
       $('#menu_recipes').append( Mustache.to_html( menu_recipe_template, menu.recipes[i] ) );
     }
+    $('#menu_recipes li').draggable( {
+      helper: "clone"
+    });
   };
   render_menu_recipes();
 
-  for ( var i = 0; i < menu.ingredients.length; i++ ) {
-    $('#menu_ingredients').append( Mustache.to_html( menu_ingredient_template, menu.ingredients[i] ) );
+  function render_menu_ingredients()
+  {
+    for ( var i = 0; i < menu.ingredients.length; i++ ) {
+      $('#menu_ingredients').append( Mustache.to_html( menu_ingredient_template, menu.ingredients[i] ) );
+    }
   }
 
-  $('#recipes > li').draggable( {
-    helper: "clone"
-  });
   $('#dropzone').droppable( {
+    accept: "#recipes li",
+    hoverClass: "ui-state-hover",
     drop: function( event, ui ) {
       
       $.ajax( {
-        url: "http://localhost:3000/menus/" + menu.id + "/recipes.json",
+        url: "/menus/" + menu.id + "/recipes.json",
         type: "POST",
         data: [
           { name: "menu_recipe[recipe_id]", value: ui.draggable.attr('id') },
@@ -42,6 +50,23 @@ $(function() {
         }
       });
     }
-  
+  });
+
+  $('#recipes').droppable( {
+    accept: "#menu_recipes li",
+    drop: function( event, ui ) {
+
+      $.ajax( {
+        url: "/menus/" + menu.id + "/recipes/" + ui.draggable.attr('id') + ".json",
+        type: "POST",
+        data: [
+          { name: "_method", value: "delete" }
+        ],
+        success: function( data ) {
+          console.log( "Successfully deleted recipe with id " + ui.draggable.attr('id') );
+          $(ui.draggable).remove();
+        }
+      });
+    }
   });
 });
