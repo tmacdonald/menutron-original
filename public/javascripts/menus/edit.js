@@ -5,6 +5,7 @@ $(function() {
   var menu_ingredient_template = $("#menu_ingredient_template").html();
 
   var render_recipes = function() {
+    $('#recipes').html('');
     for ( var i = 0; i < recipes.length; i++ ) {
       $('#recipes').append( Mustache.to_html( recipe_template, recipes[i] ) );
     }
@@ -69,4 +70,19 @@ $(function() {
       });
     }
   });
+
+  $('#search').keyup( onkeyup_search );
+
+  function onkeyup_search( e ) {
+    if ( e.keyCode == 13 ) {
+      $.ajax( {
+        url: "/recipes.json?page=2",
+        type: "GET",
+        success: function( data ) {
+          recipes = data;
+          render_recipes();
+        }
+      });
+    }
+  }
 });
