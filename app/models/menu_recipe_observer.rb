@@ -1,6 +1,7 @@
 class MenuRecipeObserver < ActiveRecord::Observer
   def before_save(model)
-    model.recipe.ingredients.each do |i|
+    recipe = Recipe.find(model.recipe_id)
+    recipe.ingredients.each do |i|
       grocery = Grocery.new
       grocery.menu_id = model.menu_id
       grocery.menu_recipe_id = model.id

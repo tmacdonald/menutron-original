@@ -93,7 +93,7 @@ class MenuRecipesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(menu_menu_recipes_url(@menu)) }
       format.xml  { head :ok }
-      format.json { head :ok }
+      format.json { render :json => @menu_recipe }
     end
   end
 
