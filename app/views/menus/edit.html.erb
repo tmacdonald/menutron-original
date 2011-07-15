@@ -1,6 +1,6 @@
 <%= link_to "Groceries", menu_groceries_path(@menu) %>
 
-<% include_javascript "menus/edit" %>
+<% include_javascript "underscore", "backbone", "menus/models", "menus/edit" %>
 
 <style type="text/css">
   #dropzone {
@@ -14,8 +14,12 @@
 </style>
 
 <script type="text/javascript">
-  var recipes = <%= raw @recipes.to_json %>;
-  var menu = <%= raw @menu.to_json %>;
+  $(function(){
+    
+    recipes.reset( <%= raw @recipes.to_json %> );
+    menu = new Menu( <%= raw @menu.to_json %> );
+    menuView = new MenuView( { model: menu } );
+  });
 </script>
 
 <input type="text" id="search" />
@@ -39,15 +43,13 @@
 <%= link_to 'Back', menus_path %>
 
 <script id="recipe_template" type="text/template">
-  <li id="{{id}}">{{name}}</li>
+  {{name}}
 </script>
 
 <script id="menu_recipe_template" type="text/template">
-  <li id="{{id}}">
   {{#recipe}}
     {{name}}
   {{/recipe}}
-  </li>
 </script>
 
 <script id="menu_ingredient_template" type="text/template">
