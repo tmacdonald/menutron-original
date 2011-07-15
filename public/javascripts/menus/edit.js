@@ -13,7 +13,7 @@ $(function() {
       helper: "clone"
     });
   };
-  render_recipes();
+  //render_recipes();
 
   var render_menu_recipes = function() {
     $('#menu_recipes').html('');
@@ -24,7 +24,7 @@ $(function() {
       helper: "clone"
     });
   };
-  render_menu_recipes();
+  //render_menu_recipes();
 
   function render_menu_ingredients()
   {
@@ -46,7 +46,7 @@ $(function() {
           { name: "menu_recipe[menu_id]", value: menu.id }
         ],
         success: function( data ) { 
-          menu.recipes.push( data );
+          //menu.recipes.push( data );
           render_menu_recipes();
         }
       });
