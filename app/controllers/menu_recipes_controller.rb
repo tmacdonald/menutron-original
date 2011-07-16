@@ -51,6 +51,7 @@ class MenuRecipesController < ApplicationController
   # POST /menu_recipes.json
   def create
     @menu_recipe = MenuRecipe.new(params[:menu_recipe])
+    @menu_recipe.menu = @menu
 
     respond_to do |format|
       if @menu_recipe.save
