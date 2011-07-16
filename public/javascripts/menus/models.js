@@ -1,3 +1,5 @@
+$(function(){
+
 var Recipe = Backbone.Model.extend({
 	
 });
@@ -12,11 +14,11 @@ var RecipeView = Backbone.View.extend({
 	render: function() {
     var template = $('#recipe_template').html();
 		var context = _.extend( this.model.toJSON(), { cid: this.model.cid } );
-		$(this.el).attr( 'id', this.model.id ).html( Mustache.to_html( template, context ) );
+		$(this.el).attr( 'id', this.model.cid ).html( Mustache.to_html( template, context ) );
 		return this;
 	}
 });
-var recipes = new RecipeCollection();
+window.recipes = new RecipeCollection();
 
 var MenuRecipe = Backbone.Model.extend({
 });
@@ -55,10 +57,14 @@ var Menu = Backbone.Model.extend({
     this.ingredients.reset( attrs.ingredients );
   }
 });
-var menu = null;
+window.menu = null;
 
 var MenuView = Backbone.View.extend({
   el: $('#menu'),
+
+  events: {
+    "drop": "dropRecipe"
+  },
 
   initialize: function( attrs ) {
     _.bindAll( this, 'addOneRecipe', 'addAllRecipes', 'render' );
@@ -71,6 +77,13 @@ var MenuView = Backbone.View.extend({
     //attrs.menu.ingredients.bind( 'add', this.addOneIngredient );
     //attrs.menu.ingredients.bind( 'reset', this.addAllIngredients );
     //attrs.menu.ingredients.bind( 'all', this.render );
+
+    $(this.el).droppable();
+  },
+
+  dropRecipe: function( event, ui ) {
+    var recipe = recipes.getByCid( ui.draggable.attr( 'id' ) );
+    this.model.recipes.create( { menu_recipe: { recipe_id: recipe.id } } );
   },
 
   addOneRecipe: function( recipe ) {
@@ -105,7 +118,13 @@ var AppView = Backbone.View.extend({
 
   addAll: function() {
     recipes.each( this.addOne );
+    $("#recipes li").draggable( { helper: "clone" } );
   }
 });
 
 window.App = new AppView();
+recipes.reset( raw_recipes );
+menu = new Menu( raw_menu );
+menuView = new MenuView( { model: menu } );
+
+});
