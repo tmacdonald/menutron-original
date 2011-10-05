@@ -2,22 +2,12 @@
   <%= form.fields_for :directions do |df| %>
   <div class="direction <%= 'new' if df.object.new_record? %>">
     <% unless df.object.new_record? %>
+      <%= df.label :destroy, :class => 'destroy' %>
       <%= df.check_box :_destroy, :class => 'destroy' %>
     <% end %>
-    <%= df.text_area :text, :rows => 3 %>
+    <%= df.text_area :text, :rows => 3, :placeholder => "Enter some directions" %>
     <%= df.text_field :order, :class => "order" %>
   </div>
   <% end %>
-
-  <div id="direction_form">
-    <textarea type="text" id="text" rows="3" cols="40" placeholder="Enter a description"></textarea>
-    <button id="add_direction">Add</button>
-  </div>
 </div> <!-- #directions -->
 
-<script id="new_direction_template" type="text/template">
-  <div class="direction new">
-    <textarea cols="40" id="recipe_directions_attributes_{{i}}_text" name="recipe[directions_attributes][{{i}}][text]" rows="3">{{text}}</textarea>
-    <input id="recipe_directions_attributes_{{i}}_order" name="recipe[directions_attributes][{{i}}][order]" size="30" type="text" value="{{order}}" class="order" />
-  </div>
-</script>

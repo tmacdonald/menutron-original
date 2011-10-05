@@ -1,5 +1,8 @@
 $(document).ready( function() {
 
+  $('.destroy').hide();
+
+  /*
   var new_direction_template = $("#new_direction_template").html();
   var new_ingredient_template = $("#new_ingredient_template").html();
 
@@ -49,5 +52,6 @@ $(document).ready( function() {
     e.preventDefault();
     return false;
   }
+  */
 
 });

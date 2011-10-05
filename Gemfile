@@ -5,6 +5,7 @@ gem 'authlogic'
 gem 'fraction'
 gem 'kaminari' #pagination
 gem 'meta_search'
+gem 'jquery-rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

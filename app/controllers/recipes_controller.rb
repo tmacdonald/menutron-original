@@ -1,15 +1,17 @@
 class RecipesController < ApplicationController
   before_filter :require_user, :except => [:index]
+  layout :choose_layout
 
   # GET /recipes
   # GET /recipes.json
   # GET /recipes.xml
   def index
-    @search = Recipe.search(params[:search])
-    @recipes = @search.page(params[:page]).includes_all
+    #@search = Recipe.search(params[:search])
+    @recipes = Recipe.search(params[:search]).page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js # index.js.erb
       format.xml  { render :xml => @recipes }
       format.json { render :json => @recipes }
     end
@@ -32,6 +34,8 @@ class RecipesController < ApplicationController
   # GET /recipes/new.xml
   def new
     @recipe = Recipe.new
+    @recipe.directions.build
+    @recipe.ingredients.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,6 +46,8 @@ class RecipesController < ApplicationController
   # GET /recipes/1/edit
   def edit
     @recipe = Recipe.find_by_slug(params[:id])
+    @recipe.directions.build
+    @recipe.ingredients.build
   end
 
   # POST /recipes
@@ -94,5 +100,10 @@ class RecipesController < ApplicationController
       format.xml  { head :ok }
       format.json { head :ok }
     end
+  end
+
+  private
+  def choose_layout
+    (request.xhr?) ? nil : 'application'
   end
 end
