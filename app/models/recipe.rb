@@ -23,21 +23,29 @@ class Recipe < ActiveRecord::Base
     slug
   end
 
-  def as_json(options = nil)
-    super( 
-      {
-        :include => 
-          { 
-            :ingredients => 
-              { 
-                :only => [:id], 
-                :methods => [:ingredient_name,:how_much] 
-              },
-            :directions => {} 
-          } 
-      } 
-    )
+  def self.search(search)
+    if search
+      where("name LIKE ?", "%#{search}%")
+    else
+      scoped
+    end
   end
+
+#  def as_json(options = nil)
+#    super( 
+#      {
+#        :include => 
+#          { 
+#            :ingredients => 
+#              { 
+#                :only => [:id], 
+#                :methods => [:ingredient_name,:how_much] 
+#              },
+#            :directions => {} 
+#          } 
+#      } 
+#    )
+#  end
 
   paginates_per 10
 end

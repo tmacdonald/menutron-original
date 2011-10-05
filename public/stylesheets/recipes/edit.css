@@ -5,47 +5,20 @@ textarea {
 }
 
 #dependents {
-
-  /* webkit */
-  display: -webkit-box;
-  -webkit-box-orient: horizontal;
-
-  /* mozilla */
-  display: -moz-box;
-  -moz-box-orient: horizontal;
-  
-  display: box;
-  box-orient: horizontal;
-
-  border: 1px solid #000;
 }
 
 #dependents > div {
-  padding: 1em;
-
-  -webkit-box-flex: 1;
 }
 #dependents > div#directions {
 }
 #dependents > div#ingredients {
-  padding-left: 0;
 }
 
 #directions {
 }
 #direction_form {
-  background: #333;
-  border: 1px solid #111;
-  border-left: 1px solid #666;
-  border-top: 1px solid #666;
-  padding: 1em;
 }
 #directions .direction {
-  background: #999;
-  border: 1px solid #333;
-  border-left: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  padding: 1em;
 }
 #directions textarea {
   width: 100%;
@@ -54,22 +27,13 @@ textarea {
 #ingredients {
 }
 #ingredient_form {
-  background: #666;
-  border-bottom: 1px solid #111;
-  border-top: 1px solid #999; 
-  padding: 1em;
 }
 #ingredients .ingredient {
-  background: #ccc;
-  border-bottom: 1px solid #666;
-  border-top: 1px solid #ddd;
-  margin: 1px 0 0 0;
-  padding: 1em;
 }
 #ingredients textarea {
   width: 100%;
 }
 
-.destroy, .order {
+.order {
   display: none;
 }

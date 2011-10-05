@@ -61,15 +61,18 @@ window.menu = null;
 
 var MenuView = Backbone.View.extend({
   el: $('#menu'),
+  _recipeViews: [],
 
   events: {
-    "drop": "dropRecipe"
+    "drop": "dropRecipe",
+    'click span.remove': 'deleteRecipe'
   },
 
   initialize: function( attrs ) {
     _.bindAll( this, 'addOneRecipe', 'addAllRecipes', 'render' );
 
     this.model.recipes.bind( 'add', this.addOneRecipe );
+    this.model.recipes.bind( 'remove', this.removeOneRecipe );
     this.model.recipes.bind( 'reset', this.addAllRecipes );
     this.model.recipes.bind( 'all', this.render );
     this.addAllRecipes();
@@ -86,9 +89,20 @@ var MenuView = Backbone.View.extend({
     this.model.recipes.create( { menu_recipe: { recipe_id: recipe.id } } );
   },
 
+  deleteRecipe: function( event ) {
+    var cid = $(event.target).closest('li').attr('id');
+    var recipe = this.model.recipes.getByCid( cid );
+    this.model.recipes.remove( recipe );
+  },
+
   addOneRecipe: function( recipe ) {
     var view = new MenuRecipeView( { model: recipe } );
     $('#menu_recipes').append( view.render().el );
+    this._recipeViews[recipe.cid] = view;
+  },
+
+  removeOneRecipe: function( recipe ) {
+    this._recipeViews[recipe.cid].remove(); 
   },
 
   addAllRecipes: function( ) {
