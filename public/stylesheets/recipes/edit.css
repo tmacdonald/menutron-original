@@ -19,9 +19,27 @@ textarea {
 #direction_form {
 }
 #directions .direction {
+  padding: 10px;
+  border-style: none none solid;
+  border-width: medium medium 1px;
 }
 #directions textarea {
   width: 100%;
+}
+#directions .direction .view {
+  position: relative;
+}
+#directions .direction .view .operations {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+#directions .direction .view .operations .edit_link {
+  margin: 0 10px 0 0;
+  color: #00f;
+}
+#directions .direction .view .operations .delete_link {
+  color: #f00;
 }
 
 #ingredients {

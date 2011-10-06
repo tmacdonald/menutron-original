@@ -5,9 +5,12 @@
       <%= df.label :destroy, :class => 'destroy' %>
       <%= df.check_box :_destroy, :class => 'destroy' %>
     <% end %>
-    <%= df.text_area :text, :rows => 3, :placeholder => "Enter some directions" %>
+    <%= df.text_area :text, :rows => 3, :class => 'text', :placeholder => "Enter some directions" %>
     <%= df.text_field :order, :class => "order" %>
   </div>
   <% end %>
 </div> <!-- #directions -->
 
+<script id="direction_template" type="text/template">
+  <span class="text">{{ text }}</span><div class="operations"><a class="edit_link">edit</a><a class="delete_link">delete</a></div>
+</script>
