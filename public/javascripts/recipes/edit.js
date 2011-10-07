@@ -1,3 +1,65 @@
+(function($) {
+  $.fn.editable_direction = function( options ) {
+    var opts = $.extend({}, $.fn.editable_direction.defaults, options);
+
+    return this.each( function() {
+      var $this = $(this);
+      var is_new = $this.hasClass('new');  
+
+      var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+
+      var $edit_div = $('<div class="edit_direction"></div>');
+      var $view_div = $('<div class="view_direction"></div>');
+
+      var $save_button = $('<a class="save">Save</a>');
+
+      $edit_div.html( $this.html() ).append( $save_button ).hide();
+      var $edit_button = $('<a class="edit">Edit</a>');
+      var $delete_button = $('<a class="delete">Delete</a>');
+      update_view_div();
+      $this.html( '' ).append( $view_div ).append( $edit_div );
+
+      function edit_button_click( e ) {
+        e.preventDefault();
+
+        $view_div.hide();
+        $edit_div.show();
+      }
+
+      function delete_button_click( e ) {
+        e.preventDefault();
+        
+        if ( is_new ) {
+          $this.remove();
+        } else {
+          $edit_div.find('.destroy').attr( 'checked', 'checked' );
+          $this.hide();
+        }
+      }
+
+      $save_button.click( function( e ) {
+        e.preventDefault();
+
+        update_view_div();
+
+        $view_div.show();
+        $edit_div.hide();
+      });
+
+      function update_view_div() {
+        $view_div.html( Mustache.to_html( opts.view_template, { text: $edit_div.find('.text').val() } ) );
+        $('<div class="operations"></div>').append( $edit_button ).append( $delete_button ).appendTo( $view_div );
+        $edit_button.click( edit_button_click );
+        $delete_button.click( delete_button_click );
+      }
+    });
+  };
+
+  $.fn.editable_direction.defaults = {
+    view_template: '<span class="text">{{ text }}</span>'
+  };
+})(jQuery);
+
 $(document).ready( function() {
 
   //$('.destroy').hide();
@@ -5,7 +67,7 @@ $(document).ready( function() {
 
   function generate_direction_template() {
     var $template = $('<div></div>');
-    $template.html( $('.direction:first').html().replace(/_0_/g, '_{index}_').replace(/\[0\]/g, '[{index}]') );
+    $template.html( $('.direction.new:first').html().replace(/_\d+_/g, '_{index}_').replace(/\[\d+\]/g, '[{index}]') );
     return $template;
   }
 
@@ -19,7 +81,7 @@ $(document).ready( function() {
     var index = $('.direction').length;
     var $direction = $('<div class="direction"></div>');
     $direction.html( $direction_template.html().replace(/\{index\}/g, index) );
-    $direction.find('.text').val( direction.text );
+    $direction.find('.text').html( direction.text );
     return $direction;
   }
 
@@ -33,51 +95,19 @@ $(document).ready( function() {
     return $ingredient;
   }
 
-  $('#directions').delegate( '.direction .view .edit_link', 'click', function( e ) {
-    e.preventDefault();
-
-    var $view = $(e.target).closest('.view').hide();
-    var $edit = $view.parent().find('.edit').show();
-  });
-
-  $('#directions').delegate( '.direction .view .delete_link', 'click', function( e ) {
-    e.preventDefault();
-
-    var $view = $(e.target).closest('.view');
-    $view.closest('.direction').hide();
-    var $edit = $view.parent().find('.edit');
-
-    $edit.find('.destroy').attr('checked', 'checked');
-  });
-
-  $('#directions').delegate( '.direction .edit button', 'click', function( e ) {
-    e.preventDefault();
-
-    var $edit = $(e.target).closest('.edit').hide();
-    var $view = $edit.parent().find('.view').show();
-  });
-
-  $('#directions').delegate( '.direction .edit .text', 'keyup', function( e ) {
-    $view_div = $(e.target).closest('.edit').parent().find('.view');
-    $view_div.html( Mustache.to_html( $('#direction_template').html(), { text: $(e.target).val() } ) );
-  });
-
+  /*
   $('.direction:not(.new)').each( function( i, e ) {
     make_direction_editable( $(e) );
   });
+  */
 
-  function make_direction_editable( $target ) {
-    var $edit_div = $('<div class="edit"></div>');
-    var $view_div = $('<div class="view"></div>');
-    $edit_div.html( $target.html() ).append('<button>Save</button>').hide();
-    $view_div.html( Mustache.to_html( $('#direction_template').html(), { text: $target.find('.text').html() } ) );
-    $target.html( '' ).append( $view_div ).append( $edit_div );
-  }
+  $('.direction:not(.new)').editable_direction();
 
   var $direction_template = generate_direction_template();
   
-  //var $direction = create_new_direction( $direction_template, { text: 'This is another direction' } );
-  //$('#directions').append( $direction );
+  var $direction = create_new_direction( $direction_template, { text: 'This is another direction' } );
+  $('#directions').append( $direction );
+  $direction.editable_direction();
 
   var $ingredient_template = generate_ingredient_template();
   

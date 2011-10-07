@@ -26,19 +26,19 @@ textarea {
 #directions textarea {
   width: 100%;
 }
-#directions .direction .view {
+#directions .direction {
   position: relative;
 }
-#directions .direction .view .operations {
+#directions .direction .operations {
   position: absolute;
   top: 0;
   right: 0;
 }
-#directions .direction .view .operations .edit_link {
+#directions .direction .operations .edit {
   margin: 0 10px 0 0;
   color: #00f;
 }
-#directions .direction .view .operations .delete_link {
+#directions .direction .operations .delete {
   color: #f00;
 }
 
