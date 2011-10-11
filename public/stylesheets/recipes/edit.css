@@ -29,16 +29,16 @@ textarea {
 #directions .direction {
   position: relative;
 }
-#directions .direction .operations {
+.operations {
   position: absolute;
   top: 0;
   right: 0;
 }
-#directions .direction .operations .edit {
+.operations .edit {
   margin: 0 10px 0 0;
   color: #00f;
 }
-#directions .direction .operations .delete {
+.operations .delete {
   color: #f00;
 }
 
@@ -47,6 +47,7 @@ textarea {
 #ingredient_form {
 }
 #ingredients .ingredient {
+  position: relative;
 }
 #ingredients textarea {
   width: 100%;
