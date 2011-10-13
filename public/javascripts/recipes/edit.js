@@ -1,234 +1,213 @@
-(function($) {
-  $.fn.editable_direction = function( options ) {
-    var opts = $.extend({}, $.fn.editable_direction.defaults, options);
+$(function() {
 
-    return this.each( function() {
-      var $this = $(this);
-      var is_new = $this.hasClass('new');  
+  var generate_direction_template = function() {
+    var $direction = $('.direction.new');
+    var template = $direction.html();
+    template = template.replace(/_\d+_/, '_{index}_');
+    template = template.replace(/\[\d+\]/, '[{index}]');
+    $direction.remove();
+    return template;
+  };
 
-      var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+  var direction_template = generate_direction_template();
+  //$('#directions').hide();
 
-      var $edit_div = $('<div class="edit_direction"></div>');
-      var $view_div = $('<div class="view_direction"></div>');
+  var DirectionStore = function() {
+  };
+  _.extend(DirectionStore.prototype, {
+    findAll: function() {
+      var directions = [];
 
-      var $save_button = $('<a class="save">Save</a>');
-
-      $edit_div.html( $this.html() ).append( $save_button ).hide();
-      var $edit_button = $('<a class="edit">Edit</a>');
-      var $delete_button = $('<a class="delete">Delete</a>');
-      update_view_div();
-      $this.html( '' ).append( $view_div ).append( $edit_div );
-
-      function edit_button_click( e ) {
-        e.preventDefault();
-
-        $view_div.hide();
-        $edit_div.show();
-      }
-
-      function delete_button_click( e ) {
-        e.preventDefault();
-        
-        if ( is_new ) {
-          $this.remove();
-        } else {
-          $edit_div.find('.destroy').attr( 'checked', 'checked' );
-          $this.hide();
-        }
-      }
-
-      $save_button.click( function( e ) {
-        e.preventDefault();
-
-        update_view_div();
-
-        $view_div.show();
-        $edit_div.hide();
+      $('.direction:not(.new)').each( function(i,e) {
+        var $direction = $(e);
+        var direction = {
+          id: $direction.attr('id'),
+          text: $direction.find('.text').html(),
+          order: $direction.find('.order').val()
+        };
+        directions.push(direction);
       });
 
-      function update_view_div() {
-        $view_div.html( Mustache.to_html( opts.view_template, { text: $edit_div.find('.text').val() } ) );
-        $('<div class="operations"></div>').append( $edit_button ).append( $delete_button ).appendTo( $view_div );
-        $edit_button.click( edit_button_click );
-        $delete_button.click( delete_button_click );
+      return directions;
+    },
+
+    create: function(model) {
+      var $direction = $('<div class="direction"></div>').html(direction_template.replace(/{index}/, $('.direction:not(.new)').length));
+      $('#directions').append($direction);
+      $direction.find('.text').html(model.get('text'));
+      $direction.find('.order').val(model.get('order'));
+      return model;
+    },
+
+    update: function(model) {
+      var $direction = $('.direction#'+model.id);
+      $direction.find('.text').html(model.get('text'));
+      $direction.find('.order').val(model.get('order'));
+      return model;
+    },
+
+    destroy: function(model) {
+      var $direction = $('.direction#'+model.id);
+      if ($direction.hasClass('new')) {
+        $direction.remove();
+      } else {
+        $direction.find('.destroy').attr('checked', true);
       }
-    });
+      return model;
+    }
+  });
+
+  var Direction = Backbone.Model.extend({
+  });
+
+  var Directions = Backbone.Collection.extend({
+    store: new DirectionStore()
+  });
+
+  Backbone.sync = function(method, model, options) {
+    var store = model.store || model.collection.store;
+    var response;
+
+    switch (method) {
+      case "read":    response = store.findAll(); break;
+      case "create":  response = store.create(model); break;
+      case "update":  response = store.update(model); break;
+      case "delete":  response = store.destroy(model); break;
+    }
+
+    if (response) {
+      options.success(response);
+    } else {
+      options.error("No descriptions found.");
+    }
   };
 
-  $.fn.editable_direction.defaults = {
-    view_template: '<span class="text">{{ text }}</span>'
+  var App = {
+    Views: {},
+    Routers: {},
+    init: function() {
+      new App.Routers.Directions();
+      Backbone.history.start();
+    }
   };
-})(jQuery);
 
-(function($) {
-  $.fn.editable_ingredient = function( options ) {
-    var opts = $.extend({}, $.fn.editable_ingredient.defaults, options);
+  var DirectionView = Backbone.View.extend({
+    className: 'direction',
 
-    return this.each( function() {
-      var $this = $(this);
-      var is_new = $this.hasClass('new');  
+    events: {
+      "click .edit_link"          : "edit",
+      "click .delete_link"        : "destroy",
+      "click .edit .save"         : "save",
+      "click .edit .cancel"       : "cancel"
+    },
 
-      var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+    initialize: function() {
+      this.model.bind('change', this.render, this);
+      this.model.bind('destroy', this.remove, this);
+    },
 
-      var $edit_div = $('<div class="edit_ingredient"></div>');
-      var $view_div = $('<div class="view_ingredient"></div>');
+    render: function() {
+      $(this.el).html(Mustache.to_html($('#direction_template').html(), this.model.toJSON()));
+      $(this.el).find('.edit').hide();
+      console.log($(this.el).html());
+      return this;
+    },
 
-      var $save_button = $('<a class="save">Save</a>');
+    remove: function() {
+      $(this.el).remove();
+    },
 
-      $edit_div.html( $this.html() ).append( $save_button ).hide();
-      var $edit_button = $('<a class="edit">Edit</a>');
-      var $delete_button = $('<a class="delete">Delete</a>');
-      update_view_div();
-      $this.html( '' ).append( $view_div ).append( $edit_div );
+    edit: function() {
+      $(this.el).find('.edit').show();
+      $(this.el).find('.view').hide();
+    },
 
-      function edit_button_click( e ) {
-        e.preventDefault();
+    destroy: function() {
+      this.model.destroy();
+    },
 
-        $view_div.hide();
-        $edit_div.show();
-      }
-
-      function delete_button_click( e ) {
-        e.preventDefault();
-        
-        if ( is_new ) {
-          $this.remove();
-        } else {
-          $edit_div.find('.destroy').attr( 'checked', 'checked' );
-          $this.hide();
-        }
-      }
-
-      $save_button.click( function( e ) {
-        e.preventDefault();
-
-        update_view_div();
-
-        $view_div.show();
-        $edit_div.hide();
+    save: function() {
+      $(this.el).find('.edit').hide();
+      this.model.save({
+        text: $(this.el).find('.edit .text').val()
       });
+      $(this.el).find('.view').show();
+    },
 
-      function update_view_div() {
-        $view_div.html( Mustache.to_html( opts.view_template, 
-        {
-          how_much: $edit_div.find('.how_much').val(),
-          ingredient_name: $edit_div.find('.ingredient_name').val(),
-          preparation: $edit_div.find('.preparation').val()
-        } ) );
-        $('<div class="operations"></div>').append( $edit_button ).append( $delete_button ).appendTo( $view_div );
-        $edit_button.click( edit_button_click );
-        $delete_button.click( delete_button_click );
-      }
-    });
-  };
+    cancel: function(e) {
+      e.preventDefault();
+      $(this.el).find('.edit').hide();
+      $(this.el).find('.view').show();
+    }
+  });
 
-  $.fn.editable_ingredient.defaults = {
-    view_template: '<span class="how_much">{{ how_much }}</span><span class="ingredient_name">{{ ingredient_name }}</span><span class="preparation">{{ preparation }}</span>'
-  };
-})(jQuery);
-$(document).ready( function() {
+  App.Views.Index = Backbone.View.extend({
+    el: $('#directions_list'),
 
-  //$('.destroy').hide();
-  $('.ingredient.new, .direction.new').hide();
+    initialize: function() {
+      this.directions = this.options.directions;
 
-  function generate_direction_template() {
-    var $template = $('<div></div>');
-    $template.html( $('.direction.new:first').html().replace(/_\d+_/g, '_{index}_').replace(/\[\d+\]/g, '[{index}]') );
-    return $template;
-  }
+      this.directions.bind('add',   this.addOne, this);
+      this.directions.bind('reset', this.addAll, this);
+      this.directions.bind('all',   this.render, this);
 
-  function generate_ingredient_template() {
-    var $template = $('<div></div>');
-    $template.html( $('.ingredient.new:first').html().replace(/_\d+_/g, '_{index}_').replace(/\[\d+\]/g, '[{index}]') );
-    return $template;
-  }
+      this.directions.fetch();
+    },
 
-  function create_new_direction( $direction_template, direction ) {
-    var index = $('.direction:not(.new)').length;
-    var $direction = $('<div class="direction"></div>');
-    $direction.html( $direction_template.html().replace(/\{index\}/g, index) );
-    $direction.find('.text').html( direction.text );
-    return $direction;
-  }
+    addOne: function(direction) {
+      var view = new DirectionView({model: direction});
+      $(this.el).append(view.render().el);
+    },
 
-  function create_new_ingredient( $ingredient_template, ingredient ) {
-    var index = $('.ingredient:not(.new)').length;
-    var $ingredient = $('<div class="ingredient"></div>');
-    $ingredient.html( $ingredient_template.html().replace(/\{index\}/g, index) );
-    $ingredient.find('.how_much').val( ingredient.how_much );
-    $ingredient.find('.ingredient_name').val( ingredient.ingredient_name );
-    $ingredient.find('.preparation').val( ingredient.preparation );
-    return $ingredient;
-  }
+    addAll: function() {
+      this.directions.each(this.addOne, this);
+    },
 
-  $('.direction:not(.new)').editable_direction();
-  $('.ingredient:not(.new)').editable_ingredient();
+    render: function() {
+    }
+  });
 
-  var $direction_template = generate_direction_template();
-  
-  var $direction = create_new_direction( $direction_template, { text: 'This is another direction' } );
-  $('#directions').append( $direction );
-  $direction.editable_direction();
+  App.Views.NewDirection = Backbone.View.extend({
+    events: {
+      "click .save"     : "save",
+      "click .cancel"   : "cancel"
+    },
 
-  var $ingredient_template = generate_ingredient_template();
+    initialize: function() {
+      this.directions = this.options.directions;
+      this.render();
+    },
 
-  var $ingredient = create_new_ingredient( $ingredient_template, { how_much: '1 lb', ingredient_name: 'flour', preparation: '' } );
-  $('#ingredients').append( $ingredient );
-  //$ingredient.editable_ingredient();
-  
-  //var $ingredient = create_new_ingredient( $ingredient_template, { how_much: '1 1/2 cups', ingredient_name: 'carrots', preparation: 'shredded' } );
-  //$('#ingredients').append( $ingredient );
-  
-  /*
-  var new_direction_template = $("#new_direction_template").html();
-  var new_ingredient_template = $("#new_ingredient_template").html();
+    render: function() {
+      $(this.el).html(Mustache.to_html($('#new_direction_template').html()));
+      $(this.el).appendTo($('body'));
+    },
 
-  function add_direction( text ) {
-    var direction_count = $("#directions .direction").length;
+    save: function() {
+      this.directions.create({text: $(this.el).find('.text').val()});
+      $(this.el).find('.text').val('');
+    },
 
-    var params = {
-      i: direction_count,
-      text: text,
-      order: direction_count
-    };
+    cancel: function(e) {
+      e.preventDefault();
+      $(this.el).find('.text.').val('');
+    }
+  });
 
-    $("#directions").append( Mustache.to_html( new_direction_template, params ) );
-  }
+  App.Routers.Directions = Backbone.Router.extend({
+    routes: {
+      "":     "index"
+    },
 
-  function add_ingredient( how_much, ingredient_name, preparation ) {
-    var ingredient_count = $("#ingredients .ingredient").length;
+    index: function() {
+      var directions = new Directions();
+      new App.Views.Index({directions: directions});
+      new App.Views.NewDirection({directions: directions});
+    }
+  });
 
-    var params = {
-      i: ingredient_count,
-      how_much: how_much,
-      ingredient_name: ingredient_name,
-      preparation: preparation,
-      order: ingredient_count
-    };
+  App.init();
 
-    $("#ingredients").append( Mustache.to_html( new_ingredient_template, params ) );
-  }
-
-  $("#add_ingredient").click( onclick_add_ingredient );
-  $("#add_direction").click( onclick_add_direction );
-
-  function onclick_add_ingredient( e ) {
-    add_ingredient( $("#how_much").val(), $("#ingredient_name").val(), $("#preparation").val() );
-    $("#ingredient_form :input").val( "" );
-    $("#how_much").focus();
-
-    e.preventDefault();
-    return false;
-  }
-
-  function onclick_add_direction( e ) {
-    add_direction( $("#text").val() );
-    $("#direction_form :input").val( "" );
-    $("#text").focus();
-
-    e.preventDefault();
-    return false;
-  }
-  */
 
 });
+

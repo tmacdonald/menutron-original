@@ -18,15 +18,15 @@ textarea {
 }
 #direction_form {
 }
-#directions .direction {
+.direction {
   padding: 10px;
   border-style: none none solid;
   border-width: medium medium 1px;
 }
-#directions textarea {
+.direction textarea {
   width: 100%;
 }
-#directions .direction {
+.direction {
   position: relative;
 }
 .operations {
