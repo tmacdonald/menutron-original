@@ -1,10 +1,8 @@
 <%
-  content_for(:head) do
-    javascript_include_tag "recipes/edit"
-  end
-  content_for(:head) do
-    stylesheet_link_tag "recipes/edit"   
-  end
+  javascript "recipes/edit"
+  javascript "underscore"
+  javascript "backbone"
+  stylesheet "recipes/edit"
 %>
 
 <%= form_for(@recipe) do |f| %>
@@ -43,4 +41,6 @@
     <%= f.submit %>
   </div>
 <% end %>
+
+<div id="directions_list"></div>
 

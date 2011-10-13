@@ -4,9 +4,9 @@
     <% unless ingredient_form.object.new_record? %>
       <%= ingredient_form.check_box :_destroy, :class => "destroy" %>
     <% end %>
-    <%= ingredient_form.text_field :how_much, :size => "" %>
-    <%= ingredient_form.text_field :ingredient_name, :size => "" %>
-    <%= ingredient_form.text_field :preparation, :size => "" %>
+    <%= ingredient_form.text_field :how_much, :class => 'how_much', :size => "" %>
+    <%= ingredient_form.text_field :ingredient_name, :class => 'ingredient_name', :size => "" %>
+    <%= ingredient_form.text_field :preparation, :class => 'preparation', :size => "" %>
     <%= ingredient_form.text_field :order, :class => "order" %>
   </div>
   <% end %>
