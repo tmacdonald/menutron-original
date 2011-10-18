@@ -1,9 +1,13 @@
 <%
-  javascript "recipes/edit"
   javascript "underscore"
   javascript "backbone"
+  javascript "recipes/edit"
   stylesheet "recipes/edit"
 %>
+
+<script type="text/javascript">
+  var recipe = new Recipe(<%= raw @recipe.to_json %>);
+</script>
 
 <%= form_for(@recipe) do |f| %>
   <% if @recipe.errors.any? %>
@@ -31,16 +35,62 @@
     <%= f.text_field :servings %>
   </div>
 
+  <% if false %>
   <div id="dependents">
     <%= render :partial => "recipe_directions/nested_form", :locals => { :form => f } %>
 
     <%= render :partial => "recipe_ingredients/nested_form", :locals => { :form => f } %>
   </div> <!-- #dependents -->
+  <% end %>
 
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<div id="app">
+  <div id="recipe"></div>
+  <div id="new_direction"></div>
+  <div id="directions"></div>
+</div>
+
+<script type="text/template" id="edit_recipe_template">
+  <div class="field">
+    <label for="name">Name</label>
+    <br/>
+    <input type="text" name="name" id="name" value="{{ name }}" />
+  </div>
+  <div class="field">
+    <label for="description">Description</label>
+    <br/>
+    <textarea type="text" name="description" id="description">{{ description }}</textarea>
+  </div>
+  <div class="field">
+    <label for="servings">Servings</label>
+    <br/>
+    <input type="text" name="servings" id="servings" value="{{ servings }}"/>
+  </div>
+  <div class="actions">
+    <input type="submit" name="submit" id="save" value="Save Recipe" />
+  </div>
+</script>
+
+<script type="text/template" id="direction_template">
+  <div class="view">
+    <span class="text">{{ text }}</span><div class="operations"><a class="edit_link">edit</a><a class="delete_link">delete</a></div>
+  </div>
+  <div class="edit">
+    <textarea class="text">{{ text }}</textarea>
+    <button class="save">Save</button>
+    <a href="#" class="cancel">Cancel</a>
+  </div>
+</script>
+
+<script type="text/template" id="new_direction_template">
+  <textarea class="text"></textarea>
+  <button class="save">Save</button>
+  <a href="#" class="cancel">Cancel</a>
+</script>
 
 <div id="directions_list"></div>
 

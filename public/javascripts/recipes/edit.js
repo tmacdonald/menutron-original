@@ -1,148 +1,75 @@
-$(function() {
+var Recipe = Backbone.Model.extend({
+  initialize: function() {
+    this.directions = new RecipeDirections(null, {recipe: this});
+    this.directions.url = '/recipes/' + this.get('slug') + '/directions';
+    //this.directions.bind('reset', function(data) { console.log(data); });
+    this.directions.fetch();
+  },
 
-  var generate_direction_template = function() {
-    var $direction = $('.direction.new');
-    var template = $direction.html();
-    template = template.replace(/_\d+_/, '_{index}_');
-    template = template.replace(/\[\d+\]/, '[{index}]');
-    $direction.remove();
-    return template;
-  };
+  url: function() {
+    return '/recipes/' + (this.isNew() ? '' : this.get('slug'));
+  },
 
-  var direction_template = generate_direction_template();
-  //$('#directions').hide();
+  toJSON: function() {
+    return {'recipe': _.clone(this.attributes)};
+  }
+});
 
-  var DirectionStore = function() {
-  };
-  _.extend(DirectionStore.prototype, {
-    findAll: function() {
-      var directions = [];
+var RecipeDirection = Backbone.Model.extend({
+  initialize: function() {
+    this.recipe = this.collection.recipe;
+  },
 
-      $('.direction:not(.new)').each( function(i,e) {
-        var $direction = $(e);
-        var direction = {
-          id: $direction.attr('id'),
-          text: $direction.find('.text').html(),
-          order: $direction.find('.order').val()
-        };
-        directions.push(direction);
-      });
+  url: function() {
+    return '/recipes/' + this.recipe.get('slug') + '/directions/' + (this.isNew() ? '' : this.id);
+  },
 
-      return directions;
-    },
+  toJSON: function() {
+    return {'recipe_direction': _.clone(this.attributes)};
+  }
+});
 
-    create: function(model) {
-      var $direction = $('<div class="direction"></div>').html(direction_template.replace(/{index}/, $('.direction:not(.new)').length));
-      $('#directions').append($direction);
-      $direction.find('.text').html(model.get('text'));
-      $direction.find('.order').val(model.get('order'));
-      return model;
-    },
+var RecipeDirections = Backbone.Collection.extend({
+  model: RecipeDirection,
 
-    update: function(model) {
-      var $direction = $('.direction#'+model.id);
-      $direction.find('.text').html(model.get('text'));
-      $direction.find('.order').val(model.get('order'));
-      return model;
-    },
+  initialize: function(models, options) {
+    this.recipe = options.recipe;
+  }
+});
 
-    destroy: function(model) {
-      var $direction = $('.direction#'+model.id);
-      if ($direction.hasClass('new')) {
-        $direction.remove();
-      } else {
-        $direction.find('.destroy').attr('checked', true);
-      }
-      return model;
-    }
-  });
+$(function(){
+  var EditRecipeView = Backbone.View.extend({
+    template: $('#edit_recipe_template').html(),
 
-  var Direction = Backbone.Model.extend({
-  });
-
-  var Directions = Backbone.Collection.extend({
-    store: new DirectionStore()
-  });
-
-  Backbone.sync = function(method, model, options) {
-    var store = model.store || model.collection.store;
-    var response;
-
-    switch (method) {
-      case "read":    response = store.findAll(); break;
-      case "create":  response = store.create(model); break;
-      case "update":  response = store.update(model); break;
-      case "delete":  response = store.destroy(model); break;
-    }
-
-    if (response) {
-      options.success(response);
-    } else {
-      options.error("No descriptions found.");
-    }
-  };
-
-  var App = {
-    Views: {},
-    Routers: {},
-    init: function() {
-      new App.Routers.Directions();
-      Backbone.history.start();
-    }
-  };
-
-  var DirectionView = Backbone.View.extend({
-    className: 'direction',
+    el: $('#app #recipe'),
 
     events: {
-      "click .edit_link"          : "edit",
-      "click .delete_link"        : "destroy",
-      "click .edit .save"         : "save",
-      "click .edit .cancel"       : "cancel"
+      "click #save": "save"
     },
 
     initialize: function() {
-      this.model.bind('change', this.render, this);
-      this.model.bind('destroy', this.remove, this);
+      this.model.bind('error', this.error, this);
     },
 
     render: function() {
-      $(this.el).html(Mustache.to_html($('#direction_template').html(), this.model.toJSON()));
-      $(this.el).find('.edit').hide();
-      console.log($(this.el).html());
-      return this;
-    },
-
-    remove: function() {
-      $(this.el).remove();
-    },
-
-    edit: function() {
-      $(this.el).find('.edit').show();
-      $(this.el).find('.view').hide();
-    },
-
-    destroy: function() {
-      this.model.destroy();
+      $(this.el).html(Mustache.to_html(this.template, this.model.toJSON().recipe));
     },
 
     save: function() {
-      $(this.el).find('.edit').hide();
       this.model.save({
-        text: $(this.el).find('.edit .text').val()
+        name: $(this.el).find('#name').val(),
+        description: $(this.el).find('#description').val(),
+        servings: $(this.el).find('#servings').val()
       });
-      $(this.el).find('.view').show();
     },
 
-    cancel: function(e) {
-      e.preventDefault();
-      $(this.el).find('.edit').hide();
-      $(this.el).find('.view').show();
+    error: function(model, resp, options) {
+      console.log(resp);
     }
   });
 
-  App.Views.Index = Backbone.View.extend({
-    el: $('#directions_list'),
+  var DirectionsView = Backbone.View.extend({
+    el: $('#app #directions'),
 
     initialize: function() {
       this.directions = this.options.directions;
@@ -150,8 +77,6 @@ $(function() {
       this.directions.bind('add',   this.addOne, this);
       this.directions.bind('reset', this.addAll, this);
       this.directions.bind('all',   this.render, this);
-
-      this.directions.fetch();
     },
 
     addOne: function(direction) {
@@ -167,10 +92,14 @@ $(function() {
     }
   });
 
-  App.Views.NewDirection = Backbone.View.extend({
+  var NewDirectionView = Backbone.View.extend({
+    template: $('#new_direction_template').html(),
+
+    el: $('#app #new_direction'),
+
     events: {
-      "click .save"     : "save",
-      "click .cancel"   : "cancel"
+      "click .save"   : "save",
+      "click .cancel" : "cancel"
     },
 
     initialize: function() {
@@ -179,8 +108,8 @@ $(function() {
     },
 
     render: function() {
-      $(this.el).html(Mustache.to_html($('#new_direction_template').html()));
-      $(this.el).appendTo($('body'));
+      $(this.el).html(Mustache.to_html(this.template));
+      return this;
     },
 
     save: function() {
@@ -188,26 +117,76 @@ $(function() {
       $(this.el).find('.text').val('');
     },
 
-    cancel: function(e) {
-      e.preventDefault();
-      $(this.el).find('.text.').val('');
+    cancel: function() {
+      $(this.el).find('.text').val('');
     }
   });
 
-  App.Routers.Directions = Backbone.Router.extend({
-    routes: {
-      "":     "index"
+  var DirectionView = Backbone.View.extend({
+    template: $('#direction_template').html(),
+
+    className: 'direction',
+
+    events: {
+      "click .edit_link"            : "edit",
+      "click .delete_link"          : "destroy",
+      "click .edit .save"           : "save",
+      "click .edit .cancel"         : "cancel"
     },
 
-    index: function() {
-      var directions = new Directions();
-      new App.Views.Index({directions: directions});
-      new App.Views.NewDirection({directions: directions});
+    initialize: function() {
+      this.model.bind('change',   this.render, this);
+      this.model.bind('destroy',  this.remove, this);
+
+      this.editing = false;
+    },
+
+    render: function() {
+      $(this.el).html(Mustache.to_html(this.template, this.model.toJSON().recipe_direction));
+
+      $(this.el).find('.view').toggle(!this.editing);
+      $(this.el).find('.edit').toggle(this.editing);
+
+      return this;
+    },
+
+    remove: function() {
+      $(this.el).remove();
+    },
+
+    edit: function() {
+      this.editing = true;
+      this.render();
+    },
+
+    destroy: function() {
+      this.model.destroy();
+    },
+
+    save: function() {
+      this.model.save({
+        text: $(this.el).find('.edit .text').val()
+      });
+      this.editing = false;
+      this.render();
+    },
+
+    cancel: function() {
+      this.editing = false;
+      this.render();
     }
   });
 
-  App.init();
+  var editRecipeView = new EditRecipeView({model: recipe});
+  editRecipeView.render();
 
+  var newDirectionView = new NewDirectionView({directions: recipe.directions});
+  newDirectionView.render();
 
+  var directionsView = new DirectionsView({directions: recipe.directions});
+  directionsView.render();
+
+  //recipe.directions.create({text: "this is a test"});
 });
+
 

@@ -54,6 +54,8 @@ class RecipesController < ApplicationController
   # POST /recipes.xml
   # POST /recipes.json
   def create
+    logger.info params
+
     @recipe = Recipe.new(params[:recipe])
 
     respond_to do |format|
