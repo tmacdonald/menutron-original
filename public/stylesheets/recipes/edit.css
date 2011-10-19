@@ -1,58 +1,25 @@
-body {
-}
-
-textarea {
-}
-
-#dependents {
-}
-
-#dependents > div {
-}
-#dependents > div#directions {
-}
-#dependents > div#ingredients {
-}
-
-#directions {
-}
-#direction_form {
-}
-.direction {
+#new_direction, #new_ingredient {
   padding: 10px;
-  border-style: none none solid;
-  border-width: medium medium 1px;
-}
-.direction textarea {
-  width: 100%;
-}
-.direction {
-  position: relative;
-}
-.operations {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.operations .edit {
-  margin: 0 10px 0 0;
-  color: #00f;
-}
-.operations .delete {
-  color: #f00;
 }
 
-#ingredients {
-}
-#ingredient_form {
-}
-#ingredients .ingredient {
-  position: relative;
-}
-#ingredients textarea {
-  width: 100%;
+#new_direction textarea {
+  width: 700px;
 }
 
-.order {
-  display: none;
+#new_ingredient .how_much {
+  width: 150px;
+}
+#new_ingredient .ingredient_name {
+  width: 150px;
+}
+#new_ingredient .preparation {
+  width: 250px;
+}
+
+#directions, #ingredients {
+  padding: 10px;
+}
+
+#ingredients .view .how_much {
+  width: 400px;
 }

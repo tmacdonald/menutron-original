@@ -2,12 +2,9 @@ var Recipe = Backbone.Model.extend({
   initialize: function() {
     this.directions = new RecipeDirections(null, {recipe: this});
     this.directions.url = '/recipes/' + this.get('slug') + '/directions';
-    //this.directions.bind('reset', function(data) { console.log(data); });
-    this.directions.fetch();
 
     this.ingredients = new RecipeIngredients(null, {recipe: this});
     this.ingredients.url = '/recipes/' + this.get('slug') + '/ingredients';
-    this.ingredients.fetch();
   },
 
   url: function() {

@@ -7,6 +7,11 @@
 
 <script type="text/javascript">
   var recipe = new Recipe(<%= raw @recipe.to_json %>);
+
+  $(function(){
+    recipe.directions.reset(recipe.get('directions'));
+    recipe.ingredients.reset(recipe.get('ingredients'));
+  });
 </script>
 
 <div id="app">
@@ -40,7 +45,11 @@
 
 <script type="text/template" id="direction_template">
   <div class="view">
-    <span class="text">{{ text }}</span><div class="operations"><a class="edit_link">edit</a><a class="delete_link">delete</a></div>
+    <span class="text">{{ text }}</span>
+    <div class="operations">
+      <a class="edit_link">edit</a>
+      <a class="delete_link">delete</a>
+    </div>
   </div>
   <div class="edit">
     <textarea class="text">{{ text }}</textarea>
