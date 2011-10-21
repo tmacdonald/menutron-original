@@ -1,46 +1,100 @@
 <%
-  javascript "recipes/edit"
   javascript "underscore"
   javascript "backbone"
+  javascript "recipes/edit"
   stylesheet "recipes/edit"
 %>
 
-<%= form_for(@recipe) do |f| %>
-  <% if @recipe.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+<script type="text/javascript">
+  var recipe = new Recipe(<%= raw @recipe.to_json %>);
 
-      <ul>
-      <% @recipe.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  $(function(){
+    recipe.directions.reset(recipe.get('directions'));
+    recipe.ingredients.reset(recipe.get('ingredients'));
+  });
+</script>
 
+<div id="app">
+  <div id="recipe"></div>
+  <div id="new_direction"></div>
+  <table id="directions"></table>
+  <div id="new_ingredient"></div>
+  <table id="ingredients"></table>
+</div>
+
+<script type="text/template" id="edit_recipe_template">
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <label for="name">Name</label>
+    <br/>
+    <input type="text" name="name" id="name" value="{{ name }}" />
   </div>
   <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description, :rows => 3 %>
+    <label for="description">Description</label>
+    <br/>
+    <textarea type="text" name="description" id="description">{{ description }}</textarea>
   </div>
   <div class="field">
-    <%= f.label :servings %><br />
-    <%= f.text_field :servings %>
+    <label for="servings">Servings</label>
+    <br/>
+    <input type="text" name="servings" id="servings" value="{{ servings }}"/>
   </div>
-
-  <div id="dependents">
-    <%= render :partial => "recipe_directions/nested_form", :locals => { :form => f } %>
-
-    <%= render :partial => "recipe_ingredients/nested_form", :locals => { :form => f } %>
-  </div> <!-- #dependents -->
-
   <div class="actions">
-    <%= f.submit %>
+    <input type="submit" name="submit" id="save" value="Save Recipe" />
   </div>
-<% end %>
+</script>
 
-<div id="directions_list"></div>
+<script type="text/template" id="direction_template">
+  <tr class="view">
+    <td class="text">{{ text }}</td>
+    <td class="operations">
+      <p>
+        <a class="edit_link">edit</a>
+        <a class="delete_link">delete</a>
+      </p>
+    </td>
+  </tr>
+  <tr class="edit">
+    <td colspan="2">
+      <textarea class="text">{{ text }}</textarea>
+      <button class="save">Save</button>
+      <a href="#" class="cancel">Cancel</a>
+    </td>
+  </td>
+</script>
 
+<script type="text/template" id="ingredient_template">
+  <tr class="view">
+    <td class="how_much">{{ how_much }}</td>
+    <td class="ingredient_name">{{ ingredient_name }}</td>
+    <td class="preparation">{{ preparation }}</td>
+    <td class="operations">
+      <p>
+        <a class="edit_link">edit</a>
+        <a class="delete_link">delete</a>
+      </p>
+    </td>
+  </tr>
+  <tr class="edit">
+    <td colspan="4">
+      <input type="text" placeholder="How much?" class="how_much" value="{{ how_much }}"/>
+      <input type="text" placeholder="Ingredient" class="ingredient_name" value="{{ ingredient_name }}" />
+      <input type="text" placeholder="Preparation" class="preparation" value="{{ preparation }}"/>
+      <button class="save">Save</button>
+      <a href="#" class="cancel">Cancel</a>
+    </td>
+  </tr>
+</script>
+
+<script type="text/template" id="new_direction_template">
+  <textarea class="text"></textarea>
+  <button class="save">Save</button>
+  <a href="#" class="cancel">Cancel</a>
+</script>
+
+<script type="text/template" id="new_ingredient_template">
+  <input type="text" placeholder="How much?" class="how_much" />
+  <input type="text" placeholder="Ingredient" class="ingredient_name" />
+  <input type="text" placeholder="Preparation" class="preparation" />
+  <button class="save">Save</button>
+  <a href="#" class="cancel">Cancel</a>
+</script>

@@ -19,7 +19,7 @@ class RecipeIngredientsController < ApplicationController
   # GET /recipe_ingredients/1.xml
   # GET /recipe_ingredients/1.json
   def show
-    @recipe_ingredient = RecipeIngredient.find(params[:id])
+    @recipe_ingredient = @recipe.ingredients.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -41,14 +41,14 @@ class RecipeIngredientsController < ApplicationController
 
   # GET /recipe_ingredients/1/edit
   def edit
-    @recipe_ingredient = RecipeIngredient.find(params[:id])
+    @recipe_ingredient = @recipe.ingredients.find(params[:id])
   end
 
   # POST /recipe_ingredients
   # POST /recipe_ingredients.xml
   # POST /recipe_ingredients.json
   def create
-    @recipe_ingredient = RecipeIngredient.new(params[:recipe_ingredient])
+    @recipe_ingredient = @recipe.ingredients.new(params[:recipe_ingredient])
 
     respond_to do |format|
       if @recipe_ingredient.save
@@ -67,13 +67,13 @@ class RecipeIngredientsController < ApplicationController
   # PUT /recipe_ingredients/1.xml
   # PUT /recipe_ingredients/1.json
   def update
-    @recipe_ingredient = RecipeIngredient.find(params[:id])
+    @recipe_ingredient = @recipe.ingredients.find(params[:id])
 
     respond_to do |format|
       if @recipe_ingredient.update_attributes(params[:recipe_ingredient])
         format.html { redirect_to([@recipe,@recipe_ingredient], :notice => 'Recipe ingredient was successfully updated.') }
         format.xml  { head :ok }
-        format.json { head :ok }
+        format.json { render :json => @recipe_ingredient.to_json(:only => :id, :methods => [:how_much,:ingredient_name]), :status => :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @recipe_ingredient.errors, :status => :unprocessable_entity }
@@ -86,13 +86,13 @@ class RecipeIngredientsController < ApplicationController
   # DELETE /recipe_ingredients/1.xml
   # DELETE /recipe_ingredients/1.json
   def destroy
-    @recipe_ingredient = RecipeIngredient.find(params[:id])
+    @recipe_ingredient = @recipe.ingredients.find(params[:id])
     @recipe_ingredient.destroy
 
     respond_to do |format|
       format.html { redirect_to(recipe_recipe_ingredients_url(@recipe)) }
       format.xml  { head :ok }
-      format.json { head :ok }
+      format.json { render :json => @recipe_ingredient, :status => :ok }
     end
   end
 
