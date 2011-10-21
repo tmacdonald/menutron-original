@@ -17,9 +17,9 @@
 <div id="app">
   <div id="recipe"></div>
   <div id="new_direction"></div>
-  <div id="directions"></div>
+  <table id="directions"></table>
   <div id="new_ingredient"></div>
-  <div id="ingredients"></div>
+  <table id="ingredients"></table>
 </div>
 
 <script type="text/template" id="edit_recipe_template">
@@ -44,37 +44,45 @@
 </script>
 
 <script type="text/template" id="direction_template">
-  <div class="view">
-    <span class="text">{{ text }}</span>
-    <div class="operations">
-      <a class="edit_link">edit</a>
-      <a class="delete_link">delete</a>
-    </div>
-  </div>
-  <div class="edit">
-    <textarea class="text">{{ text }}</textarea>
-    <button class="save">Save</button>
-    <a href="#" class="cancel">Cancel</a>
-  </div>
+  <tr class="view">
+    <td class="text">{{ text }}</td>
+    <td class="operations">
+      <p>
+        <a class="edit_link">edit</a>
+        <a class="delete_link">delete</a>
+      </p>
+    </td>
+  </tr>
+  <tr class="edit">
+    <td colspan="2">
+      <textarea class="text">{{ text }}</textarea>
+      <button class="save">Save</button>
+      <a href="#" class="cancel">Cancel</a>
+    </td>
+  </td>
 </script>
 
 <script type="text/template" id="ingredient_template">
-  <div class="view">
-    <span class="how_much">{{ how_much }}</span>
-    <span class="ingredient_name">{{ ingredient_name }}</span>
-    <span class="preparation">{{ preparation }}</span>
-    <div class="operations">
-      <a class="edit_link">edit</a>
-      <a class="delete_link">delete</a>
-    </div>
-  </div>
-  <div class="edit">
-    <input type="text" placeholder="How much?" class="how_much" value="{{ how_much }}"/>
-    <input type="text" placeholder="Ingredient" class="ingredient_name" value="{{ ingredient_name }}" />
-    <input type="text" placeholder="Preparation" class="preparation" value="{{ preparation }}"/>
-    <button class="save">Save</button>
-    <a href="#" class="cancel">Cancel</a>
-  </div>
+  <tr class="view">
+    <td class="how_much">{{ how_much }}</td>
+    <td class="ingredient_name">{{ ingredient_name }}</td>
+    <td class="preparation">{{ preparation }}</td>
+    <td class="operations">
+      <p>
+        <a class="edit_link">edit</a>
+        <a class="delete_link">delete</a>
+      </p>
+    </td>
+  </tr>
+  <tr class="edit">
+    <td colspan="4">
+      <input type="text" placeholder="How much?" class="how_much" value="{{ how_much }}"/>
+      <input type="text" placeholder="Ingredient" class="ingredient_name" value="{{ ingredient_name }}" />
+      <input type="text" placeholder="Preparation" class="preparation" value="{{ preparation }}"/>
+      <button class="save">Save</button>
+      <a href="#" class="cancel">Cancel</a>
+    </td>
+  </tr>
 </script>
 
 <script type="text/template" id="new_direction_template">

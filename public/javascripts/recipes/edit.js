@@ -164,7 +164,8 @@ $(function(){
       $(this.el).find('.text').val('');
     },
 
-    cancel: function() {
+    cancel: function(e) {
+      e.preventDefault();
       $(this.el).find('.text').val('');
     }
   });
@@ -199,13 +200,15 @@ $(function(){
       this.ingredients.create(ingredient);
     },
 
-    cancel: function() {
+    cancel: function(e) {
+      e.preventDefault();
     }
   });
 
   var DirectionView = Backbone.View.extend({
     template: $('#direction_template').html(),
 
+    tagName: 'tbody',
     className: 'direction',
 
     events: {
@@ -252,7 +255,8 @@ $(function(){
       this.render();
     },
 
-    cancel: function() {
+    cancel: function(e) {
+      e.preventDefault();
       this.editing = false;
       this.render();
     }
@@ -261,6 +265,7 @@ $(function(){
   var IngredientView = Backbone.View.extend({
     template: $('#ingredient_template').html(),
 
+    tagName: "tbody",
     className: 'ingredient',
 
     events: {
@@ -310,7 +315,8 @@ $(function(){
       this.render();
     },
 
-    cancel: function() {
+    cancel: function(e) {
+      e.preventDefault();
       this.editing = false;
       this.render();
     }
