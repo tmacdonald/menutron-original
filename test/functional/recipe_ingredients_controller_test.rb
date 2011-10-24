@@ -3,7 +3,7 @@ require 'test_helper'
 class RecipeIngredientsControllerTest < ActionController::TestCase
   setup do
     @recipe = recipes(:one)
-    @recipe_ingredient = recipe_ingredients(:one)
+    @recipe_ingredient = recipe_ingredients(:one_cup_flour)
     UserSession.create(users(:one))
   end
 

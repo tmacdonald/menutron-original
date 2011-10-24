@@ -2,10 +2,10 @@
 
 one:
   text: MyText
-  recipe_id: recipes(:one).id
+  recipe: one
   order: 1
 
 two:
   text: MyText
-  recipe_id: recipes(:two).id
+  recipe: two
   order: 1

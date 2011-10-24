@@ -15,3 +15,7 @@ blueberries:
 watermelon:
   name: watermelon
   plural: false
+
+flour:
+  name: flour
+  plural: true

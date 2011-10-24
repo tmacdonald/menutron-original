@@ -3,4 +3,6 @@ class RecipeIngredient < ActiveRecord::Base
   include Amounted
 
   belongs_to :ingredient
+  belongs_to :measurement
+  belongs_to :recipe
 end
