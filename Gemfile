@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.10'
+gem 'rails', '3.1.0'
 gem 'authlogic'
 gem 'fraction'
 gem 'kaminari' #pagination
