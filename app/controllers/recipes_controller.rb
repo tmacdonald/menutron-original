@@ -50,7 +50,7 @@ class RecipesController < ApplicationController
   # POST /recipes.xml
   # POST /recipes.json
   def create
-    logger.info params
+    logger.info "params : #{params.inspect}"
 
     @recipe = Recipe.new(params[:recipe])
 
